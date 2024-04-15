@@ -1,9 +1,12 @@
 <script setup lang="ts">
 definePageMeta({layout: 'default'})
-useHead({title: 'Home page'})
+useHead({ title: 'Home page' })
+
+
+
 </script>
 <template>
-    <section>
+    <section class="bg-primary-color dark:bg-primaryDarkColor">
         <h2>Home page</h2>
          <NuxtLink to="/auth">Auth page</NuxtLink>
     </section>
