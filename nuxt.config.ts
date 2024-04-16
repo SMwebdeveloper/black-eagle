@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/tailwind.css'],
-  modules: [],
+  modules: ["nuxt-icon"],
   postcss: {
     plugins: {
       tailwindcss: {},
