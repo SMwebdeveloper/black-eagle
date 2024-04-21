@@ -1,40 +1,71 @@
 <script setup lang="ts">
 const menuVisible = ref(false);
 const secondMenuVisible = ref(false);
+const sidebarMenu = ref(false);
 const practiceSelect = ref([
   {
-    path: '/scored',
-    title: 'Scoreboard',
-    icon: 'ic:baseline-score'
+    path: "/scored",
+    title: "Scoreboard",
+    icon: "ic:baseline-score",
   },
   {
-    path: '/challenges',
-    title: 'Challenges',
-    icon:'ic:baseline-format-list-bulleted'
-  }
-])
+    path: "/challenges",
+    title: "Challenges",
+    icon: "ic:baseline-format-list-bulleted",
+  },
+]);
 const contestsSelect = ref([
   {
-    path: '/upcoming',
-    title: 'Upcoming',
-    icon: 'tabler:chevrons-down'
-  }, {
-    path: '/ongoing',
-    title: 'Ongoing',
-    icon: 'tabler:chevrons-right'
+    path: "/upcoming",
+    title: "Upcoming",
+    icon: "tabler:chevrons-down",
   },
   {
-    path: '/finished',
-    title: 'Finished',
-    icon: 'ph:hourglass-high-fill'
-  }
-])
+    path: "/ongoing",
+    title: "Ongoing",
+    icon: "tabler:chevrons-right",
+  },
+  {
+    path: "/finished",
+    title: "Finished",
+    icon: "ph:hourglass-high-fill",
+  },
+]);
+
+const navLink = ref([
+  {
+    path: "/users",
+    title: "Users",
+  },
+  {
+    path: "/teams",
+    title: "Teams",
+  },
+  {
+    path: "/education",
+    title: "Education",
+  },
+]);
+onMounted(() => {
+  window.addEventListener("click", (e: any) => {
+    const el = e.target.getAttribute("data-name");
+    if (el === "overlay") {
+      menuVisible.value = false;
+      secondMenuVisible.value = false;
+      sidebarMenu.value = false;
+    }
+  });
+});
+const removeSidebarMenu = () => {
+  sidebarMenu.value = false
+}
 </script>
 <template>
   <section class="bg-[rgba(255,255,255,0.5)] py-3 shadow-sm">
     <div
-      class="max-w-[1400px] w-full mx-auto flex items-center px-3 md:px-5 2xl:px-7 bg-red-500"
+      class="max-w-[1400px] w-full mx-auto flex items-center justify-between px-3 md:px-5 2xl:px-7 bg-red-500"
     >
+      <!-- Site logo -->
       <NuxtLink
         to="/"
         class="inline-block text-3xl text-darkColor font-semibold"
@@ -42,84 +73,101 @@ const contestsSelect = ref([
         Cyberspace
       </NuxtLink>
 
-      <ul
-        class="flex items-center gap-x-4 text-darkColor text-lg font-medium mx-auto"
+      <button class="lg:hidden" @click="sidebarMenu = !sidebarMenu">
+        <IconCSS
+          name="majesticons:align-right-line"
+          class="text-darkColor text-2xl font-bold"
+        />
+      </button>
+
+      <div
+        data-name="overlay"
+        class="fixed top-0 left-0 w-full h-full transition-all duration-75 bg-[rgba(0,0,0,0.5)] lg:hidden"
+        :class="`${sidebarMenu ? 'visible' : 'invisible'}`"
+      ></div>
+      <div
+        class="fixed top-0 w-1/3 h-screen lg:h-auto transition-all duration-500 lg:static bg-white lg:bg-transparent px-4 py-5 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:flex items-center justify-between ml-auto lg:w-[70%]"
+        :class="`${
+          sidebarMenu
+            ? 'visible right-0 transition-all duration-500 '
+            : 'invisible lg:visible -right-full transition-all duration-500 delay-75'
+        }`"
       >
-        <li>
-          <NuxtLink to="/users" exact-active-class="active">
-            <p class="text-lg group relative w-max">
-              <span>Users</span>
-              <span
-                class="absolute -bottom-1 left-0 w-0 transition-all duration-150 h-0.5 bg-darkColor group-hover:w-full"
-              ></span>
-            </p>
+        <!-- Site logo -->
+        <div class="flex items-start justify-between w-full">
+          <NuxtLink
+           @click="removeSidebarMenu"
+            to="/"
+            class="inline-block text-3xl text-darkColor font-semibold mb-3 lg:hidden"
+          >
+            Cyberspace
           </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/teams">
-            <p class="text-lg group relative w-max">
-              <span>Teams</span>
-              <span
-                class="absolute -bottom-1 left-0 w-0 transition-all duration-150 h-0.5 bg-darkColor group-hover:w-full"
-              ></span>
-            </p>
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/education">
-            <p class="text-lg group relative w-max">
-              <span>Education</span>
-              <span
-                class="absolute -bottom-1 left-0 w-0 transition-all duration-150 h-0.5 bg-darkColor group-hover:w-full"
-              ></span>
-            </p>
-          </NuxtLink>
-        </li>
-        <li class="relative">
-          <button @click="menuVisible = !menuVisible">
-            Practice
-            <span>
-              <IconCSS
-                name="ic:outline-keyboard-arrow-down"
-                class="transition-all duration-200 ease-linear"
-                :class="{ 'rotate-180': menuVisible }"
-              />
-            </span>
+          <button @click="removeSidebarMenu" class="absoulte top-0 right-0">
+            <IconCSS name="mingcute:close-fill" class="text-xl text-darkColor"/>
           </button>
-          <SharedSelect :menu-visible="menuVisible" :select-value="practiceSelect"/>
-        </li>
-        <li class="relative">
-          <h2>
-            Contents
-            <span>
-              <Icon name="ic:outline-keyboard-arrow-down" />
-            </span>
-          </h2>
-          <SharedSelect :menu-visible="secondMenuVisible" :select-value="contestsSelect"/>
-        </li>
-      </ul>
-      <div class="flex items-center gap-x-2">
+        </div>
+        <!-- nav link -->
+        <ul
+          class="lg:flex items-center gap-x-4 text-darkColor text-lg font-medium mb-2 lg:mb-0"
+        >
+          <li v-for="(link, i) in navLink" :key="i" @click="sidebarMenu = false">
+            <NuxtLink :to="link.path">
+              <p class="text-lg group relative w-max">
+                <span>{{ link.title }}</span>
+                <span
+                  class="absolute -bottom-1 left-0 w-0 transition-all duration-150 h-0.5 bg-darkColor group-hover:w-full"
+                ></span>
+              </p>
+            </NuxtLink>
+          </li>
+
+          <li class="lg:relative">
+            <button @click="menuVisible = !menuVisible">
+              Practice
+              <span>
+                <IconCSS
+                  name="ic:outline-keyboard-arrow-down"
+                  class="transition-all duration-200 ease-linear"
+                  :class="{ 'rotate-180': menuVisible }"
+                />
+              </span>
+            </button>
+            <SharedSelect
+              :menu-visible="menuVisible"
+              :select-value="practiceSelect"
+              @remove="removeSidebarMenu"
+            />
+          </li>
+          <li class="lg:relative">
+            <button @click="secondMenuVisible = !secondMenuVisible">
+              Contents
+              <span>
+                <IconCSS
+                  name="ic:outline-keyboard-arrow-down"
+                  class="transition-all duration-200 ease-linear"
+                  :class="{ 'rotate-180': secondMenuVisible }"
+                />
+              </span>
+            </button>
+            <SharedSelect
+              :menu-visible="secondMenuVisible"
+              :select-value="contestsSelect"
+              @remove="removeSidebarMenu"
+            />
+          </li>
+        </ul>
+        <!-- auth page link-->
         <NuxtLink
           to="/auth"
-          class="px-3 py-2 relative rounded group overflow-hidden font-medium bg-white text-darkColor flex items-center border border-darkColor"
+          @click="removeSidebarMenu"
+          class="px-3 py-2 relative rounded group overflow-hidden font-medium bg-white text-darkColor inline-block l border border-darkColor"
         >
           <span
             class="absolute top-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-darkColor group-hover:h-full opacity-90"
           ></span>
-          <span class="relative group-hover:text-white mr-2">Sign up</span>
-          <IconCSS
-            name="heroicons:user-plus-16-solid"
-            class="text-2xl group-hover:text-white"
-          />
-        </NuxtLink>
-        <NuxtLink
-          to="/auth"
-          class="px-3 py-2 relative rounded group overflow-hidden font-medium bg-white text-darkColor flex items-center border border-darkColor"
-        >
-          <span
-            class="absolute top-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-darkColor group-hover:h-full opacity-90"
-          ></span>
-          <span class="relative group-hover:text-white mr-2">Sign in</span>
+          <span class="relative group-hover:text-white mr-2"
+            >Authentication</span
+          >
           <IconCSS
             name="heroicons:arrow-right-end-on-rectangle-solid"
             class="text-2xl group-hover:text-white"

@@ -13,6 +13,7 @@ export default {
     colors: {
       "lightColor": '#f8f8f8',
       "darkColor": '#34495E',
+      "transparent": "transparent",
       'white': '#ffffff',
       'purple': '#3f3cbb',
       'midnight': '#121063',
