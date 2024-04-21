@@ -1,6 +1,34 @@
 <script setup lang="ts">
-const menuVisible:boolean = ref(false);
+const menuVisible = ref(false);
 const secondMenuVisible = ref(false);
+const practiceSelect = ref([
+  {
+    path: '/scored',
+    title: 'Scoreboard',
+    icon: 'ic:baseline-score'
+  },
+  {
+    path: '/challenges',
+    title: 'Challenges',
+    icon:'ic:baseline-format-list-bulleted'
+  }
+])
+const contestsSelect = ref([
+  {
+    path: '/upcoming',
+    title: 'Upcoming',
+    icon: 'tabler:chevrons-down'
+  }, {
+    path: '/ongoing',
+    title: 'Ongoing',
+    icon: 'tabler:chevrons-right'
+  },
+  {
+    path: '/finished',
+    title: 'Finished',
+    icon: 'ph:hourglass-high-fill'
+  }
+])
 </script>
 <template>
   <section class="bg-[rgba(255,255,255,0.5)] py-3 shadow-sm">
@@ -49,23 +77,25 @@ const secondMenuVisible = ref(false);
         </li>
         <li class="relative">
           <button @click="menuVisible = !menuVisible">
-              Practice
-              <span>
-                <Icon name="ic:outline-keyboard-arrow-down" />
-              </span>
+            Practice
+            <span>
+              <IconCSS
+                name="ic:outline-keyboard-arrow-down"
+                class="transition-all duration-200 ease-linear"
+                :class="{ 'rotate-180': menuVisible }"
+              />
+            </span>
           </button>
-          <div class="absolute  right-[10%] bg-white transition-all duration-200 ease-linear shadow-sm rounded-md flex flex-col text-base" :class="`${menuVisible ? 'visible top-[200%]' : 'invisible top-[-50%] duration-200 opacity-0'}`">
-            <NuxtLink to="/scored" class="flex items-center gap-x-2 px-3 pt-2 pb-2 duration-150 hover:bg-darkColor hover:text-white rounded-t-md"><IconCSS name="ic:baseline-score" class="text-lg duration-150" :class="{'rotate-180' : menuVisible}"/> Scoreboard</NuxtLink>
-            <NuxtLink to="/challenges" class="flex items-center gap-x-2 px-3 pt-2 pb-2 duration-150 hover:bg-darkColor hover:text-white rounded-b-md"><IconCSS name="ic:baseline-format-list-bulleted" class="text-lg"/>Challenges</NuxtLink>
-          </div>
+          <SharedSelect :menu-visible="menuVisible" :select-value="practiceSelect"/>
         </li>
-        <li>
+        <li class="relative">
           <h2>
             Contents
             <span>
               <Icon name="ic:outline-keyboard-arrow-down" />
             </span>
           </h2>
+          <SharedSelect :menu-visible="secondMenuVisible" :select-value="contestsSelect"/>
         </li>
       </ul>
       <div class="flex items-center gap-x-2">
