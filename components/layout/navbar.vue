@@ -94,11 +94,11 @@ const removeSidebarMenu = () => {
         }`"
       >
         <!-- Site logo -->
-        <div class="flex items-start justify-between w-full">
+        <div class="flex items-start justify-between w-full lg:hidden">
           <NuxtLink
            @click="removeSidebarMenu"
             to="/"
-            class="inline-block text-3xl text-darkColor font-semibold mb-3 lg:hidden"
+            class="inline-block text-3xl text-darkColor font-semibold mb-3"
           >
             Cyberspace
           </NuxtLink>
