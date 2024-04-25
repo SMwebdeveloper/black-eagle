@@ -9,10 +9,17 @@ export default {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'auth-img': "url('/assets/images/auth-page.jpg')"
+      }
+    },
     colors: {
       "lightColor": '#f8f8f8',
+      "blakc": '#000',
       "darkColor": '#34495E',
+      "blue": '#368DE7',
+      "red" : 'red',
       "transparent": "transparent",
       'white': '#ffffff',
       'purple': '#3f3cbb',
@@ -22,7 +29,7 @@ export default {
       'silver': '#ecebff',
       'bubble-gum': '#ff77e9',
       'bermuda': '#78dcca',
-    }
+    },
   },
   plugins: [],
 }
