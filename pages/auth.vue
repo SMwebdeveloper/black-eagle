@@ -1,32 +1,46 @@
 <template>
   <div class="pt-[15vh] bg-lightColor h-screen relative">
-    <button @click="router.back()" class="fixed top-[5vh] left-[5vw] bg-white px-6 py-1 text-darkColor font-medium rounded-xl duration-150 hover:shadow-lg"
-      ><span><IconCSS name="mingcute:align-arrow-left-line" class="text-2xl"/> </span>
-      Back</button
+    <button
+      @click="router.back()"
+      class="fixed top-[5vh] left-[5vw] bg-white px-6 py-1 text-darkColor font-medium rounded-xl duration-150 hover:shadow-lg"
     >
-    <SharedAlert :alertVisible="alertVisible"/>
+      <span
+        ><IconCSS name="mingcute:align-arrow-left-line" class="text-2xl" />
+      </span>
+      Back
+    </button>
+    <SharedAlert :alertVisible="alertVisible" />
     <div class="card mx-auto">
       <input type="checkbox" id="chk" aria-hidden="true" name="" />
       <div class="content">
         <!-- Sing up -->
         <div class="front bg-white px-6 py-2 border border-metal shadow-lg">
-          <AuthSignup :userInfo="userInfo" :infoError="infoError" @handleClick="handleClick" @changeForm="() => changeForm = true"/>
+          <AuthSignup
+            :userInfo="userInfo"
+            :infoError="infoError"
+            @handleClick="handleClick"
+            @changeForm="() => (changeForm = true)"
+          />
         </div>
 
         <!-- Sign in -->
         <div class="back bg-white px-6 py-6 border border-metal shadow-lg">
-          <AuthSignin :userInfo="userInfo" :infoError="infoError" @handleClick="handleClick" @changeForm="() => changeForm = false"/>
+          <AuthSignin
+            :userInfo="userInfo"
+            :infoError="infoError"
+            @handleClick="handleClick"
+            @changeForm="() => (changeForm = false)"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-
 definePageMeta({ layout: "auth" });
-const router = useRouter()
-const changeForm = ref(false)
-const alertVisible = ref(false)
+const router = useRouter();
+const changeForm = ref(false);
+const alertVisible = ref(false);
 const userInfo = ref({
   email: "",
   password: "",
@@ -36,33 +50,41 @@ const userInfo = ref({
 const infoError = ref({
   nameError: false,
   emailError: false,
-  passwordError : false
-})
+  passwordError: false,
+});
 
 const handleClick = () => {
-  userInfo.value.name ? infoError.value.nameError = false : infoError.value.nameError = true
-  userInfo.value.email ? infoError.value.emailError = false : infoError.value.emailError = true
-  userInfo.value.password ? infoError.value.passwordError = false : infoError.value.passwordError = true
-
-  if (!userInfo.value.password || !userInfo.value.email || !userInfo.value.password) {
-    alertVisible.value = true
+  if (
+    !userInfo.value.password ||
+    !userInfo.value.email ||
+    !userInfo.value.password
+  ) {
+    userInfo.value.name
+      ? (infoError.value.nameError = false)
+      : (infoError.value.nameError = true);
+    userInfo.value.email
+      ? (infoError.value.emailError = false)
+      : (infoError.value.emailError = true);
+    userInfo.value.password
+      ? (infoError.value.passwordError = false)
+      : (infoError.value.passwordError = true);
+    alertVisible.value = true;
     setInterval(() => {
-     alertVisible.value = false
-     infoError.value.emailError = false
-     infoError.value.nameError = false
-     infoError.value.passwordError = false
-    }, 3000)
+      alertVisible.value = false;
+      infoError.value.emailError = false;
+      infoError.value.nameError = false;
+      infoError.value.passwordError = false;
+    }, 3000);
   }
 
   if (userInfo.value.password.length < 8) {
-    infoError.value.passwordError = true
+    infoError.value.passwordError = true;
     setInterval(() => {
-     infoError.value.passwordError = false
-    }, 3000)
+      infoError.value.passwordError = false;
+    }, 3000);
   }
-  console.log(userInfo.value, changeForm.value)
-
-}
+  console.log(userInfo.value, changeForm.value);
+};
 </script>
 
 <style scoped lang="css">

@@ -6,8 +6,10 @@ useHead({ title: 'Home page' })
 
 </script>
 <template>
-    <section class="bg-primary-color dark:bg-primaryDarkColor">
+    <section class="bg-lightColor  h-screen">
         <h2>Home page</h2>
          <NuxtLink to="/auth">Auth page</NuxtLink>
+
+         <SharedLoader/>
     </section>
 </template>
