@@ -61,7 +61,7 @@ const removeSidebarMenu = () => {
 }
 </script>
 <template>
-  <section class="bg-[rgba(255,255,255,0.5)] py-3 shadow-sm">
+  <section class="bg-white py-3 shadow-sm">
     <div
       class="max-w-[1400px] w-full mx-auto flex items-center justify-between px-3 md:px-5 2xl:px-7 bg-red-500"
     >
@@ -86,7 +86,7 @@ const removeSidebarMenu = () => {
         :class="`${sidebarMenu ? 'visible' : 'invisible'}`"
       ></div>
       <div
-        class="fixed top-0 w-1/3 h-screen lg:h-auto transition-all duration-500 lg:static bg-white lg:bg-transparent px-4 py-5 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:flex items-center justify-between ml-auto lg:w-[70%]"
+        class="fixed top-0 w-[250px] h-screen lg:h-auto transition-all duration-500 lg:static bg-white lg:bg-transparent px-4 py-5 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:flex items-center justify-between ml-auto lg:w-[70%]"
         :class="`${
           sidebarMenu
             ? 'visible right-0 transition-all duration-500 '
