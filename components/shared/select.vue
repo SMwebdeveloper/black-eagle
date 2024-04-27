@@ -11,11 +11,17 @@ const props = defineProps({
 });
 </script>
 <template>
-  <div data-name="overlay" v-if="menuVisible" class="hidden lg:block lg:fixed top-0 left-0 w-full h-full z-10"></div>
   <div
-    class="lg:absolute top-0 left-0 lg:top-[200%] lg:right-[10%] h-0 lg:w-[150px]  lg:h-auto bg-lightColor lg:bg-white transition-all z-20 duration-200 ease-linear shadow-inner lg:shadow-sm  flex flex-col text-base"
+    data-name="overlay"
+    v-if="menuVisible"
+    class="hidden lg:block lg:fixed top-0 left-0 w-full h-full z-10"
+  ></div>
+  <div
+    class="lg:absolute top-0 left-0 lg:top-[200%] lg:right-[10%] h-0 lg:w-[150px] lg:h-auto bg-lightColor lg:bg-white transition-all z-20 duration-200 ease-linear shadow-inner lg:shadow-sm flex flex-col text-base"
     :class="`${
-      props.menuVisible ? 'visible h-auto ' : 'invisible h-0  duration-200 opacity-0'
+      props.menuVisible
+        ? 'visible h-auto '
+        : 'invisible h-0  duration-200 opacity-0'
     }`"
   >
     <NuxtLink

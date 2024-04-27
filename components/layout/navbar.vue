@@ -57,13 +57,16 @@ onMounted(() => {
   });
 });
 const removeSidebarMenu = () => {
-  sidebarMenu.value = false
-}
+  menuVisible.value = false;
+  secondMenuVisible.value = false;
+
+  sidebarMenu.value = false;
+};
 </script>
 <template>
   <section class="bg-white py-3 shadow-sm">
     <div
-      class="max-w-[1400px] w-full mx-auto flex items-center justify-between px-3 md:px-5 2xl:px-7 bg-red-500"
+      class="max-w-[1400px] w-full mx-auto flex items-center justify-between px-3 md:px-5 2xl:px-7"
     >
       <!-- Site logo -->
       <NuxtLink
@@ -96,21 +99,28 @@ const removeSidebarMenu = () => {
         <!-- Site logo -->
         <div class="flex items-start justify-between w-full lg:hidden">
           <NuxtLink
-           @click="removeSidebarMenu"
+            @click="removeSidebarMenu"
             to="/"
             class="inline-block text-3xl text-darkColor font-semibold mb-3"
           >
             Cyberspace
           </NuxtLink>
           <button @click="removeSidebarMenu" class="absoulte top-0 right-0">
-            <IconCSS name="mingcute:close-fill" class="text-xl text-darkColor"/>
+            <IconCSS
+              name="mingcute:close-fill"
+              class="text-xl text-darkColor"
+            />
           </button>
         </div>
         <!-- nav link -->
         <ul
           class="lg:flex items-center gap-x-4 text-darkColor text-lg font-medium mb-2 lg:mb-0"
         >
-          <li v-for="(link, i) in navLink" :key="i" @click="sidebarMenu = false">
+          <li
+            v-for="(link, i) in navLink"
+            :key="i"
+            @click="sidebarMenu = false"
+          >
             <NuxtLink :to="link.path">
               <p class="text-lg group relative w-max">
                 <span>{{ link.title }}</span>

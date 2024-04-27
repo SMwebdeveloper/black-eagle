@@ -66,6 +66,7 @@
         >Sign up</span
       >
     </label>
+  
   </div>
 </template>
 <script setup lang="ts">
