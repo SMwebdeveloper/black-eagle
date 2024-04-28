@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-[15vh] bg-lightColor h-screen relative">
+  <div class="pt-[15vh]  h-screen relative">
     <button
       @click="router.back()"
       class="fixed top-[5vh] left-[5vw] bg-white px-6 py-1 text-darkColor font-medium rounded-xl duration-150 hover:shadow-lg"

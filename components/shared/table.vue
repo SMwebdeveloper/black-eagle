@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-x-auto  lg:w-auto shadow-md  bg-white ">
-    <table class=" min-w-[700px] text-sm text-left rtl:text-right text-white rounded-t-lg">
+    <table class=" min-w-[700px] md:w-full text-sm text-left rtl:text-right text-white rounded-t-lg">
       <thead class="text-xs text-white uppercase bg-darkColor">
         <tr>
           <th
@@ -13,7 +13,7 @@
           </th>
         </tr>
       </thead>
-      <tbody class="min-w-[700px]">
+      <tbody class="min-w-[700px] md:w-full">
         <tr
           v-for="(item, i) in table"
           :key="i"
