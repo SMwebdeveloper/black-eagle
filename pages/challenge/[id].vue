@@ -113,81 +113,11 @@
     </div>
 
     <!-- table -->
-    <SharedTable :heading="heading" :table="table"/>
+    <div class="mt-20">
+      <h2 class="text-2xl font-medium text-darkColor mb-6">Solvers: 10</h2>
+      <SharedTable />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-const heading = ["#", "Image", "Username", "Country", "Date time"];
-const table = [
-  {
-    id: '1',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  { 
-    id: '2',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  {
-    id: '3',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  {
-    id: '4',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  {
-    id:'5',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  {
-    id: '6',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  {
-    id: '7',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  {
-    id: '8',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  {
-    id:'9',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-  {
-    id: '10',
-    img: "user-image",
-    username: "Samandar",
-    country: "Uzbekistan",
-    date: "August 27, 2023 12:30 UTC",
-  },
-];
 </script>
