@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-[15vh]  h-screen relative">
+  <div class="pt-[15vh] h-screen relative">
     <button
       @click="router.back()"
       class="fixed top-[5vh] left-[5vw] bg-white px-6 py-1 text-darkColor font-medium rounded-xl duration-150 hover:shadow-lg"
@@ -18,6 +18,7 @@
           <AuthSignup
             :userInfo="userInfo"
             :infoError="infoError"
+            :loading="loading"
             @handleClick="handleClick"
             @changeForm="() => (changeForm = true)"
           />
@@ -28,6 +29,7 @@
           <AuthSignin
             :userInfo="userInfo"
             :infoError="infoError"
+            :loading="loading"
             @handleClick="handleClick"
             @changeForm="() => (changeForm = false)"
           />
@@ -41,6 +43,7 @@ definePageMeta({ layout: "auth" });
 const router = useRouter();
 const changeForm = ref(false);
 const alertVisible = ref(false);
+const loading = ref(false)
 const userInfo = ref({
   email: "",
   password: "",
@@ -54,11 +57,22 @@ const infoError = ref({
 });
 
 const handleClick = () => {
-  if (
-    !userInfo.value.password ||
-    !userInfo.value.email ||
-    !userInfo.value.password
-  ) {
+  if (userInfo.value.password.length < 8) {
+    infoError.value.passwordError = true;
+    setInterval(() => {
+      infoError.value.passwordError = false;
+    }, 3000);
+  }
+  if (userInfo.value.email && userInfo.value.name && userInfo.value.password) {
+    loading.value = true
+    localStorage.setItem("userName", userInfo.value.name);
+    localStorage.setItem("userEmail", userInfo.value.email);
+    localStorage.setItem("userPassword", userInfo.value.password);
+    setInterval(() => {
+      loading.value = false
+      router.push('/challenges')
+    }, 3000)
+  } else {
     userInfo.value.name
       ? (infoError.value.nameError = false)
       : (infoError.value.nameError = true);
@@ -76,14 +90,6 @@ const handleClick = () => {
       infoError.value.passwordError = false;
     }, 3000);
   }
-
-  if (userInfo.value.password.length < 8) {
-    infoError.value.passwordError = true;
-    setInterval(() => {
-      infoError.value.passwordError = false;
-    }, 3000);
-  }
-  console.log(userInfo.value, changeForm.value);
 };
 </script>
 
@@ -96,7 +102,6 @@ const handleClick = () => {
 #chk {
   display: none;
 }
-
 #chk:checked ~ .content {
   animation: 2s animate;
   transform: rotateY(180deg);

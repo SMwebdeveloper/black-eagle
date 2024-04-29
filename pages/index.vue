@@ -9,8 +9,7 @@ useHead({ title: 'Home page'
 <template>
     <section class=" h-screen">
         <h2>Home page</h2>
-         <NuxtLink to="/auth">Auth page</NuxtLink>
 
-         <SharedLoader/>
+         <!-- <SharedLoader/> -->
     </section>
 </template>

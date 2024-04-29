@@ -102,7 +102,7 @@
         <div>
           <input
             type="text"
-            class="w-[500px] h-[38px] px-3 mr-4 text-base outline-none border border-darkColor text-darkColor rounded-xl"
+            class="w-auto lg:w-[500px] mb-2 h-[38px] px-3 mr-4 text-base outline-none border border-darkColor text-darkColor rounded-xl"
             placeholder="Flag{fasd577asd545asd7f}"
           />
           <button class="bg-blue px-6 py-1 text-white text-xl rounded-lg">

@@ -35,8 +35,9 @@
       @click="$emit('handleClick')"
       class="w-full bg-blue border border-blue text-white py-2 font-bold rounded-md mb-4 duration-150 hover:bg-white hover:text-blue"
     >
-      Sign in
-    </button>
+    <SharedSecondLoader v-if="loading"/>
+    <span v-else>Sign in</span>
+        </button>
     <div class="flex items-center justify-center mb-2 gap-x-3">
       <button
         class="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-red duration-150 group hover:bg-red"
@@ -78,6 +79,10 @@ const props = defineProps({
   infoError: {
     type: Object,
     required: false
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
