@@ -1,60 +1,5 @@
 <script setup lang="ts">
-const menuVisible = ref(false);
-const secondMenuVisible = ref(false);
 const sidebarMenu = ref(false);
-const userMenu = ref(false);
-const practiceSelect = ref([
-  {
-    path: "/scored",
-    title: "Scoreboard",
-    icon: "ic:baseline-score",
-  },
-  {
-    path: "/challenges",
-    title: "Challenges",
-    icon: "ic:baseline-format-list-bulleted",
-  },
-]);
-const contestsSelect = ref([
-  {
-    path: "/upcoming",
-    title: "Upcoming",
-    icon: "tabler:chevrons-down",
-  },
-  {
-    path: "/ongoing",
-    title: "Ongoing",
-    icon: "tabler:chevrons-right",
-  },
-  {
-    path: "/finished",
-    title: "Finished",
-    icon: "ph:hourglass-high-fill",
-  },
-]);
-
-const userMenuSelect = ref([
-  {
-    path: "/profile",
-    title: "Profile",
-    icon: "ic:sharp-account-circle",
-  },
-  {
-    path: "/my-team",
-    title: "My Team",
-    icon: "ph:users-three-fill",
-  },
-  {
-    path: "/notification",
-    title: "Notification",
-    icon: "ph:bell-ringing-bold",
-  },
-  {
-    path: "/settings",
-    title: "Settings",
-    icon: "ri:settings-3-line",
-  },
-]);
 const navLink = ref([
   {
     path: "/users",
@@ -73,18 +18,12 @@ onMounted(() => {
   window.addEventListener("click", (e: any) => {
     const el = e.target.getAttribute("data-name");
     if (el === "overlay") {
-      menuVisible.value = false;
-      secondMenuVisible.value = false;
       sidebarMenu.value = false;
-      userMenu.value = false;
     }
   });
 });
 const removeSidebarMenu = () => {
-  menuVisible.value = false;
-  secondMenuVisible.value = false;
   sidebarMenu.value = false;
-  userMenu.value = false;
 };
 </script>
 <template>
@@ -95,9 +34,10 @@ const removeSidebarMenu = () => {
       <!-- Site logo -->
       <NuxtLink
         to="/"
-        class="inline-block text-3xl text-darkColor font-semibold"
+        class="flex items-center text-2xl text-black font-semibold"
       >
-        Cyberspace
+        <img src="@/assets/images/2.avif" alt="site icon" class="w-[50px]">
+        <h3>Black Eagle</h3>
       </NuxtLink>
 
       <button class="lg:hidden" @click="sidebarMenu = !sidebarMenu">
@@ -154,62 +94,17 @@ const removeSidebarMenu = () => {
               </p>
             </NuxtLink>
           </li>
-
-          <li class="lg:relative">
-            <button @click="menuVisible = !menuVisible">
-              Practice
-              <span>
-                <IconCSS
-                  name="ic:outline-keyboard-arrow-down"
-                  class="transition-all duration-200 ease-linear"
-                  :class="{ 'rotate-180': menuVisible }"
-                />
-              </span>
-            </button>
-            <SharedSelect
-              :menu-visible="menuVisible"
-              :select-value="practiceSelect"
-              @remove="removeSidebarMenu"
-            />
-          </li>
-          <li class="lg:relative">
-            <button @click="secondMenuVisible = !secondMenuVisible">
-              Contents
-              <span>
-                <IconCSS
-                  name="ic:outline-keyboard-arrow-down"
-                  class="transition-all duration-200 ease-linear"
-                  :class="{ 'rotate-180': secondMenuVisible }"
-                />
-              </span>
-            </button>
-            <SharedSelect
-              :menu-visible="secondMenuVisible"
-              :select-value="contestsSelect"
-              @remove="removeSidebarMenu"
-            />
-          </li>
         </ul>
 
         <!-- user profile -->
         <div class="lg:relative">
-          <button @click="userMenu = !userMenu" class="flex items-end">
+          <NuxtLink to="/profile" class="flex items-end">
             <img
               src="../../assets/images/user-image.png"
               alt="user image"
               class="w-[33px]"
             />
-            <IconCSS
-              name="ic:round-keyboard-arrow-up"
-              class="rotate-180 text-2xl text-darkColor duration-200"
-              :class="{ 'rotate-0' : userMenu }"
-            />
-          </button>
-          <SharedSelect
-            :menu-visible="userMenu"
-            :select-value="userMenuSelect"
-            @remove="removeSidebarMenu"
-          />
+          </NuxtLink>
         </div>
         <!-- auth page link-->
         <NuxtLink
