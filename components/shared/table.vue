@@ -23,7 +23,7 @@
             {{ i + 1 }}
           </th>
           <td class="px-3 py-2 lg:px-6 lg:py-4">
-            <img src="../../assets/images/user-image.jpg" alt="user image" class="w-[28px] h-[28px] lg:w-[45px] lg:h-[45px] object-cover rounded-full"/>
+            <img src="../../assets/images/user-image.png" alt="user image" class="w-[28px] h-[28px] lg:w-[45px] lg:h-[45px] object-cover rounded-full"/>
           </td>
           <td class="px-3 py-2 lg:px-6 lg:py-4">
             {{ item.username }}

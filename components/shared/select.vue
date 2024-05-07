@@ -29,7 +29,7 @@ const props = defineProps({
       :key="i"
       :to="item.path"
       @click="$emit('remove')"
-      class="flex items-center gap-x-2 px-3 pt-2 pb-2 duration-150 hover:bg-darkColor hover:text-white"
+      class="flex text-darkColor items-center gap-x-2 px-3 pt-2 pb-2 duration-150 hover:bg-darkColor hover:text-white"
       ><IconCSS :name="item.icon" class="text-lg duration-150" />
       {{ item.title }}</NuxtLink
     >

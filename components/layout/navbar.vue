@@ -2,6 +2,7 @@
 const menuVisible = ref(false);
 const secondMenuVisible = ref(false);
 const sidebarMenu = ref(false);
+const userMenu = ref(false);
 const practiceSelect = ref([
   {
     path: "/scored",
@@ -32,18 +33,40 @@ const contestsSelect = ref([
   },
 ]);
 
+const userMenuSelect = ref([
+  {
+    path: "/profile",
+    title: "Profile",
+    icon: "ic:sharp-account-circle",
+  },
+  {
+    path: "/my-team",
+    title: "My Team",
+    icon: "ph:users-three-fill",
+  },
+  {
+    path: "/notification",
+    title: "Notification",
+    icon: "ph:bell-ringing-bold",
+  },
+  {
+    path: "/settings",
+    title: "Settings",
+    icon: "ri:settings-3-line",
+  },
+]);
 const navLink = ref([
   {
     path: "/users",
     title: "Users",
   },
   {
-    path: "/teams",
-    title: "Teams",
+    path: "/challenges",
+    title: "Challenges",
   },
   {
-    path: "/education",
-    title: "Education",
+    path: "/scored",
+    title: "Scoreboard",
   },
 ]);
 onMounted(() => {
@@ -53,14 +76,15 @@ onMounted(() => {
       menuVisible.value = false;
       secondMenuVisible.value = false;
       sidebarMenu.value = false;
+      userMenu.value = false;
     }
   });
 });
 const removeSidebarMenu = () => {
   menuVisible.value = false;
   secondMenuVisible.value = false;
-
   sidebarMenu.value = false;
+  userMenu.value = false;
 };
 </script>
 <template>
@@ -166,6 +190,27 @@ const removeSidebarMenu = () => {
             />
           </li>
         </ul>
+
+        <!-- user profile -->
+        <div class="lg:relative">
+          <button @click="userMenu = !userMenu" class="flex items-end">
+            <img
+              src="../../assets/images/user-image.png"
+              alt="user image"
+              class="w-[33px]"
+            />
+            <IconCSS
+              name="ic:round-keyboard-arrow-up"
+              class="rotate-180 text-2xl text-darkColor duration-200"
+              :class="{ 'rotate-0' : userMenu }"
+            />
+          </button>
+          <SharedSelect
+            :menu-visible="userMenu"
+            :select-value="userMenuSelect"
+            @remove="removeSidebarMenu"
+          />
+        </div>
         <!-- auth page link-->
         <NuxtLink
           to="/auth"
