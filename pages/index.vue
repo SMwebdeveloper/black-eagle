@@ -3,7 +3,7 @@ definePageMeta({ layout: "default" });
 useHead({ title: "Home page" });
 </script>
 <template>
-  <section class="text-center pt-[8%]">
+  <section class="text-center ">
     <h2 class="text-4xl text-darkColor font-medium mb-3">WELCOME TO CYBERSPACE</h2>
 
     <p class="text-xl max-w-[800px] mx-auto text-center text-dark mb-3">
