@@ -9,10 +9,6 @@ const navLink = ref([
     path: "/challenges",
     title: "Challenges",
   },
-  {
-    path: "/scored",
-    title: "Scoreboard",
-  },
 ]);
 onMounted(() => {
   window.addEventListener("click", (e: any) => {
@@ -36,7 +32,7 @@ const removeSidebarMenu = () => {
         to="/"
         class="flex items-center text-2xl text-black font-semibold"
       >
-        <img src="@/assets/images/2.avif" alt="site icon" class="w-[50px]">
+        <img src="@/assets/images/2.avif" alt="site icon" class="w-[50px]" />
         <h3>Black Eagle</h3>
       </NuxtLink>
 
@@ -53,7 +49,7 @@ const removeSidebarMenu = () => {
         :class="`${sidebarMenu ? 'visible' : 'invisible'}`"
       ></div>
       <div
-        class="fixed top-0 w-[250px] h-screen lg:h-auto transition-all duration-500 lg:static bg-white lg:bg-transparent px-4 py-5 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:flex items-center justify-between ml-auto lg:w-[70%]"
+        class="fixed top-0 w-[250px] h-screen lg:h-auto transition-all duration-500 lg:static bg-white lg:bg-transparent px-4 py-5 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:flex items-center ml-auto lg:w-auto"
         :class="`${
           sidebarMenu
             ? 'visible right-0 transition-all duration-500 '
@@ -63,11 +59,16 @@ const removeSidebarMenu = () => {
         <!-- Site logo -->
         <div class="flex items-start justify-between w-full lg:hidden">
           <NuxtLink
-            @click="removeSidebarMenu"
+           @click="removeSidebarMenu"
             to="/"
-            class="inline-block text-3xl text-darkColor font-semibold mb-3"
+            class="flex items-center text-2xl text-black font-semibold"
           >
-            Cyberspace
+            <img
+              src="@/assets/images/2.avif"
+              alt="site icon"
+              class="w-[50px]"
+            />
+            <h3>Black Eagle</h3>
           </NuxtLink>
           <button @click="removeSidebarMenu" class="absoulte top-0 right-0">
             <IconCSS
@@ -78,7 +79,7 @@ const removeSidebarMenu = () => {
         </div>
         <!-- nav link -->
         <ul
-          class="lg:flex items-center gap-x-4 text-darkColor text-lg font-medium mb-2 lg:mb-0"
+          class="lg:flex items-center gap-x-4 text-darkColor text-lg font-medium mb-2 lg:mb-0 mr-0 lg:mr-4"
         >
           <li
             v-for="(link, i) in navLink"
@@ -108,7 +109,7 @@ const removeSidebarMenu = () => {
         </div>
         <!-- auth page link-->
         <NuxtLink
-          to="/auth"
+          to="/register"
           @click="removeSidebarMenu"
           class="px-3 py-2 relative rounded group overflow-hidden font-medium bg-white text-darkColor inline-block l border border-darkColor"
         >

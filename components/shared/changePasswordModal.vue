@@ -6,7 +6,7 @@
   ></div>
 
   <div
-    class="fixed top-1/3 left-1/3 w-1/4 h-auto z-40 bg-white rounded-lg py-6 px-4"
+    class="fixed top-1/3 left-[20%] md:left-1/3 w-auto lg:w-1/4 h-auto z-40 bg-white rounded-lg py-6 px-1 lg:px-4"
     :class="`${modalVisible ? 'visible duration-75' : 'invisible duration-200 delay-300'}`"
   >
     <button

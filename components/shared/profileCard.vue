@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/5 rounded-md py-3 border border-gray bg-white px-4 shadow-lg">
+  <div class="w-full lg:w-1/5 rounded-md py-3 border border-gray bg-white px-4 shadow-lg mb-8 lg:mb-0">
     <div class="relative">
       <img
         src="@/assets/images/user-image.png"
@@ -8,7 +8,7 @@
       />
       <button
         @click="visibleModal = !visibleModal"
-        class="absolute top-[70%] left-[30%] w-[25px] h-[25px] bg-blue text-white flex items-center justify-center text-base rounded-full"
+        class="absolute top-[70%] left-[22%] md:left-[11%] lg:left-[30%] w-[25px] h-[25px] bg-blue text-white flex items-center justify-center text-base rounded-full"
       >
         <IconCSS name="heroicons:pencil" class="text-[12px]" />
       </button>
