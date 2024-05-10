@@ -1,12 +1,29 @@
 <template>
   <div class="mb-4 relative">
     <h2 class="text-3xl text-darkColor font-semibold mb-2">All Users</h2>
-    <div>
+    <div class="flex items-center justify-between">
       <input
         type="text"
         class="bg-transparent border-2 px-2 border-darkColor py-0.5 rounded-lg"
       />
+
+      <div class="bg-darkColor rounded-lg text-white relative">
+        <h2 @click="visibleSelect = !visibleSelect" class="px-3 py-2 cursor-pointer">{{ selectTitle }}</h2>
+
+        <ul v-if="visibleSelect" class="absolute px-2 py-2 top-[45px] left-0 bg-darkColor shadow-lg rounded-lg">
+          <li @click="clickSelect('All users')" class="cursor-pointer">
+            All users
+          </li>
+          <li @click="clickSelect('Most point')" class="cursor-pointer">
+            Most Point
+          </li>
+          <li @click="clickSelect('Least Point')" class="cursor-pointer">
+            Least Point
+          </li>
+        </ul>
+      </div>
     </div>
+  
     <SharedDeleteUserModal :modal-visible="deleteModal" @closeModal="deleteModal = !deleteModal"/>
   </div>
   <div class="bg-darkColor rounded-md w-full min-h-[300px]">
@@ -54,10 +71,17 @@
 </template>
 <script setup lang="ts">
 const deleteModal = ref(false);
+const visibleSelect = ref(false)
+const selectTitle = ref('All users')
 definePageMeta({
   layout: "admin",
 });
 
+
+const clickSelect = (e:any) => {
+  visibleSelect.value = !visibleSelect.value
+  selectTitle.value = e
+}
 onMounted(() => {
   window.addEventListener("click", (e:any) => {
     const el = e.target.getAttribute('data-name')
