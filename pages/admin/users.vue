@@ -7,10 +7,10 @@
         class="bg-transparent border-2 px-2 border-darkColor py-0.5 rounded-lg"
       />
 
-      <div class="bg-darkColor rounded-lg text-white relative">
+      <div class="bg-darkColor rounded-lg text-white relative w-[150px]">
         <h2 @click="visibleSelect = !visibleSelect" class="px-3 py-2 cursor-pointer">{{ selectTitle }}</h2>
 
-        <ul v-if="visibleSelect" class="absolute px-2 py-2 top-[45px] left-0 bg-darkColor shadow-lg rounded-lg">
+        <ul v-if="visibleSelect" class="absolute px-2 py-2 top-[45px] w-[150px] left-0 bg-darkColor shadow-lg rounded-lg">
           <li @click="clickSelect('All users')" class="cursor-pointer">
             All users
           </li>
