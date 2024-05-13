@@ -5,7 +5,7 @@
     :class="`${modalVisible ? 'visible duration-75' : 'invisible'}`"
   ></div>
   <div
-    class="fixed top-0 w-1/5 h-screen z-40 cursor-pointer bg-darkColor rounded-tl-md py-3 shadow-md px-2"
+    class="fixed top-0 w-[250px] lg:w-1/5 h-full z-40 cursor-pointer bg-darkColor rounded-tl-md py-3 shadow-md px-2"
     :class="`${
       modalVisible
         ? 'visible right-0 duration-150'

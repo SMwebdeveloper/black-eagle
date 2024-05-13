@@ -1,7 +1,7 @@
 <template>
   <div class="mb-4 relative">
     <h2 class="text-3xl text-darkColor font-semibold mb-2">Challenges</h2>
-    <div class="flex items-center justify-between">
+    <div class="flex  flex-col lg:flex-row items-start gap-y-4 lg:items-center justify-between">
       <input
         type="text"
         class="bg-transparent border-2 px-2 border-darkColor py-0.5 rounded-lg"
@@ -9,8 +9,8 @@
 
       <div class="flex items-center gap-x-2">
 
-      <button @click="addChallengeModal = !addChallengeModal" class="bg-blue px-2 py-2 rounded-md text-white">Add challenges</button>
-      <div class="bg-darkColor rounded-lg text-white relative">
+      <button @click="addChallengeModal = !addChallengeModal" class="bg-blue px-4  py-2 rounded-md text-white">Add challenges <span class="rotate-45 inline-block text-base font-extrabold">&times;</span></button>
+      <div class="bg-darkColor rounded-lg text-white relative w-[120px]">
         <h2
           @click="visibleSelect = !visibleSelect"
           class="px-3 py-2 cursor-pointer"
@@ -20,16 +20,16 @@
         
         <ul
           v-if="visibleSelect"
-          class="absolute px-2 py-2 top-[45px] left-0 bg-darkColor shadow-lg rounded-lg"
+          class="absolute px-2 py-2 w-[120px] top-[45px] left-0 bg-darkColor shadow-lg rounded-lg"
         >
-          <li @click="clickSelect('All users')" class="cursor-pointer">
-            All users
+          <li @click="clickSelect('Easy')" class="cursor-pointer duration-100 hover:font-semibold">
+            Easy
           </li>
-          <li @click="clickSelect('Most point')" class="cursor-pointer">
-            Most Point
+          <li @click="clickSelect('Medium')" class="cursor-pointer duration-100 hover:font-semibold">
+            Medium
           </li>
-          <li @click="clickSelect('Least Point')" class="cursor-pointer">
-            Least Point
+          <li @click="clickSelect('Hard')" class="cursor-pointer duration-100 hover:font-semibold">
+            Hard
           </li>
         </ul>
       </div>
@@ -42,34 +42,27 @@
     />
     <SharedAddChallenge :modal-visible="addChallengeModal" @closeModal="addChallengeModal = !addChallengeModal"/>
   </div>
-  <div class="bg-darkColor rounded-md w-full min-h-[300px]">
+  <div class="bg-darkColor overflow-x-auto rounded-md w-full min-h-[300px]">
     <ul
-      class="w-full py-2 px-2 border-b border-white flex text-white gap-x-2 items-start font-semibold"
+      class="w-full py-2 px-2 border-b min-w-[500px] border-white flex text-white gap-x-2 items-start font-semibold"
     >
       <li class="px-2">
-        <input type="checkbox" name="" id="" disabled />
+        Id
       </li>
       <li class="px-3 w-1/5">Title</li>
       <li class="px-3 w-1/5">Dificult</li>
       <li class="px-3 w-1/5">Point</li>
-      <li class="px-3 w-1/5">success</li>
+      <li class="px-3 w-1/5">Success</li>
       <li class="px-3 w-1/5">Actions</li>
     </ul>
     <ul
       v-for="(item, i) in 10"
       :key="i"
-      class="w-full py-2 px-2 gap-x-2 border-b border-gray flex items-center text-white text-base hover:bg-gray duration-150"
+      class="w-full py-2 px-2 gap-x-2 border-b min-w-[500px] last:border-none border-gray flex items-center text-white text-base hover:bg-gray duration-150"
     >
-      <li class="px-2">
-        <input type="checkbox" name="" id="" />
+      <li class="w-[35px] px-2">
+        {{ i+1 }}
       </li>
-      <!-- <li class="px-3 w-1/5">
-        <img
-          src="@/assets/images/user-image.png"
-          alt="user image"
-          class="w-[50px] rounded-full"
-        />
-      </li> -->
       <li class="px-3 w-1/5">JavaScript</li>
       <li class="px-3 w-1/5">Medium</li>
       <li class="px-3 w-1/5">300</li>
@@ -103,7 +96,7 @@ const deleteModal = ref(false);
 const addChallengeModal = ref(false)
 const visibleChallenge = ref(false)
 const visibleSelect = ref(false)
-const selectTitle = ref('All users')
+const selectTitle = ref('Easy')
 definePageMeta({
   layout: "admin",
 });
