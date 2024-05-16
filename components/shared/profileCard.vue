@@ -1,5 +1,7 @@
 <template>
-  <div class="w-full lg:w-1/5 rounded-md py-3 border border-gray bg-white px-4 shadow-lg mb-8 lg:mb-0">
+  <div
+    class="w-full lg:w-1/5 rounded-md py-3 border border-gray bg-white px-4 shadow-lg mb-8 lg:mb-0"
+  >
     <div class="relative">
       <img
         src="@/assets/images/user-image.png"
@@ -7,6 +9,7 @@
         class="w-[100px] rounded-full mb-3"
       />
       <button
+        v-if="editProfile"
         @click="visibleModal = !visibleModal"
         class="absolute top-[70%] left-[22%] md:left-[11%] lg:left-[30%] w-[25px] h-[25px] bg-blue text-white flex items-center justify-center text-base rounded-full"
       >
@@ -15,29 +18,18 @@
     </div>
     <div class="text-left">
       <div class="flex items-start justify-between">
-        <form @submit.prevent="handleClick" v-if="name.visibileInp">
+        <form @submit.prevent="handleClick" v-if="editProfile">
           <input
             v-model="name.title"
             :focus="name.visibileInp"
             type="text"
             class="border-b border-darkColor mb-1 outline-none bg-transparent w-full text-lg text-darkColor font-semibold"
           />
-          <div class="flex items-center gap-x-1">
-            <button class="w-1/2 bg-blue py-0.5 text-white rounded-md border border-blue">
-              Save
-            </button>
-            <button @click="name.visibileInp = false" class="w-1/2 bg-transparent  py-0.5 text-darkColor border border-darkColor rounded-md">
-              Cansel
-            </button>
-          </div>
         </form>
         <div v-else class="flex items-start justify-between w-full">
           <h2 class="text-lg text-darkColor font-semibold">
             {{ name.title }}
           </h2>
-          <button @click="name.visibileInp = !name.visibileInp">
-            <IconCSS name="heroicons:pencil" class="text-lg text-darkColor" />
-          </button>
         </div>
       </div>
       <div>
@@ -46,19 +38,48 @@
           samandarwebdeveloper@gmail.com
         </h4>
       </div>
-      <div>
+      <div class="relative">
         <span class="text-gray">Coutnry:</span>
-        <h4 class="font-medium">Uzbekistan</h4>
+        <h4 class="font-medium">Uzbekistan 
+          <button v-if="editProfile" @click="countrySelect = !countrySelect">
+          <IconCSS name="heroicons:chevron-up-20-solid" class="text-2xl rotate-180 text-darkColor duration-200 font-semibold" :class="{'rotate-0': countrySelect}"/>
+        </button></h4>
+        <SharedCountrySelect
+          :modal-visible="countrySelect"
+          :country-name="countryName"
+          @closeModal="() => (countrySelect = !countrySelect)"
+        />
       </div>
       <div>
         <span class="text-gray">Point:</span>
         <h4 class="font-medium">400</h4>
       </div>
+      <div v-if="editProfile" class="flex items-center gap-x-1">
+        <button
+          class="w-1/2 bg-blue py-0.5 text-white rounded-md border border-blue"
+        >
+          Save
+        </button>
+        <button
+          @click="editProfile = false"
+          class="w-1/2 bg-transparent py-0.5 text-darkColor border border-darkColor rounded-md"
+        >
+          Cansel
+        </button>
+      </div>
+      <button
+        v-if="!editProfile"
+        @click="editProfile = !editProfile"
+        class="flex items-center justify-center bg-blue text-white mt-3 w-full py-1 rounded-md"
+      >
+        <IconCSS name="heroicons:pencil-square" class="text-xl" />
+        <span>Edit profile</span>
+      </button>
       <button
         @click="visiblePasswordModal = !visiblePasswordModal"
         class="flex items-center justify-center bg-blue text-white mt-3 w-full py-1 rounded-md"
       >
-        <IconCSS name="heroicons:pencil-square" class="text-xl" />
+        <IconCSS name="heroicons:key-16-solid" class="text-xl" />
         <span>Change password</span>
       </button>
     </div>
@@ -74,6 +95,9 @@
 </template>
 <script setup lang="ts">
 const visibleModal = ref(false);
+const countryName = ref("");
+const countrySelect = ref(false);
+const editProfile = ref(false);
 const visiblePasswordModal = ref(false);
 const name = ref({
   title: "Samandar",
@@ -87,10 +111,10 @@ const handleClick = () => {
 onMounted(() => {
   window.addEventListener("click", (e: any) => {
     const el = e.target.getAttribute("data-name");
-
     if (el === "overlay") {
       visibleModal.value = false;
       visiblePasswordModal.value = false;
+      countrySelect.value = false;
     }
   });
 });

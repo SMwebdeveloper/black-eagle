@@ -57,37 +57,20 @@
     </div>
     <button
       @click="$emit('handleClick')"
-      class="w-full bg-blue text-white py-2 border border-blue font-bold rounded-md mb-2 duration-150 hover:bg-white hover:text-blue"
+      class="w-full bg-blue text-white py-2 border border-blue font-bold rounded-md mb-2"
     >
       
     <SharedSecondLoader v-if="loading"/>
     <span v-else>Sign up</span>
     </button>
-    <div class="flex items-center justify-center mb-2 gap-x-3">
-      <button
-        class="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-red duration-150 group hover:bg-red"
-      >
-        <IconCSS
-          name="mingcute:google-fill"
-          class="text-red w-[20px] duration-150 group-hover:text-white"
-        />
-      </button>
-      <button
-        class="w-[30px] h-[30px] flex items-center justify-center border rounded-full border-darkColor duration-150 group hover:bg-darkColor"
-      >
-        <IconCSS
-          name="mingcute:github-fill"
-          class="text-darkColor duration-150 group-hover:text-white"
-        />
-      </button>
-    </div>
+   
     <label
       for="chk"
       aria-hidden="true"
       class="flex flex-col items-center justify-center"
     >
       Do you have a profile?
-      <span @click="$emit('changeForm')"
+      <span
         class="text-metal inline-block duration-150 border-0 hover:border-b cursor-pointer"
         >Sign in</span
       >
