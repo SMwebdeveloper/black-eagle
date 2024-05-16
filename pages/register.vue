@@ -9,14 +9,13 @@
       </span>
       Back
     </button>
-    <SharedAlert :alertVisible="alertVisible" />
+    <SharedAlert :alertVisible="alertVisible" :text="alertText" />
     <div class="card mx-auto">
       <input type="checkbox" id="chk" aria-hidden="true" name="" />
       <div class="content">
         <!-- Sing up -->
         <div class="front bg-white px-6 py-2 border border-metal shadow-lg">
           <AuthSignup
-            :userInfo="userInfo"
             :infoError="infoError"
             :loading="loading"
             @handleClick="signup"
@@ -26,7 +25,6 @@
         <!-- Sign in -->
         <div class="back bg-white px-6 py-6 border border-metal shadow-lg">
           <AuthSignin
-            :userInfo="userInfo"
             :infoError="infoError"
             :loading="loading"
             @handleClick="signin"
@@ -42,11 +40,6 @@ const router = useRouter();
 const alertVisible = ref(false);
 const alertText = ref("");
 const loading = ref(false);
-const userInfo = ref({
-  email: "",
-  password: "",
-  name: "",
-});
 
 const infoError = ref({
   nameError: false,
@@ -56,14 +49,9 @@ const infoError = ref({
 
 const api = "https://myapi.pythonanywhere.com";
 
-const signup = async () => {
-  // loading.value = true
-  console.log(userInfo.value)
-  if (
-    userInfo.value.email !== "" &&
-    userInfo.value.name !== "" &&
-    userInfo.value.password.length >= 8
-  ) {
+const signup = async (info: any) => {
+  loading.value = true;
+  if (info.email !== "" && info.username !== "" && info.password.length >= 6) {
     try {
       const response = await fetch(`${api}/accounts/signup/`, {
         headers: {
@@ -71,55 +59,107 @@ const signup = async () => {
           "Content-Type": "application/json",
         },
         method: "POST",
-        body: JSON.stringify(userInfo.value),
+        body: JSON.stringify(info),
       });
       const date = await response.json();
-      console.log(date);
-      throw new Error("upps");
+      if (!response.ok) {
+        alertVisible.value = true;
+        alertText.value = date.username[0]
+      }
+     setInterval(() => {
+       alertVisible.value = false
+     },3000)
+    } catch (error) {
+    } finally {
+      loading.value = false;
+    }
+  } else {
+    loading.value = false;
+    alertVisible.value = true;
+    if(info.email === "" && info.username === "" && info.password.length === 0) {
+      infoError.value.emailError = true
+      infoError.value.nameError = true
+      infoError.value.passwordError = true
+      alertText.value = "Please fill in the information"
+    } else if(info.email === "") {
+      infoError.value.emailError = true
+      alertText.value = "Please fill in the information"
+    } else if(info.username === "") {
+      infoError.value.nameError = true
+      alertText.value = "Please fill in the information"
+    } else if (info.password.length === 0) {
+      infoError.value.passwordError = true
+      alertText.value = "Please fill in the information"
+    } else {
+      return ''
+    }
+    if(info.password.length > 0 && info.password.length < 6) {
+      infoError.value.passwordError = true
+      alertText.value = "password must be at least 6 characters long"
+    }
+    setInterval(() => {
+      infoError.value.emailError = false
+      infoError.value.nameError = false
+      infoError.value.passwordError = false
+      alertVisible.value = false;
+    }, 3000);
+  }
+};
+
+const signin = async (info: any) => {
+  loading.value = true;
+
+  if (info.username !== "" && info.password.length !== 0) {
+    try {
+      const response = await fetch(`${api}/accounts/login`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "aplication/json",
+        },
+        method: "POST",
+        body: JSON.stringify(info),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        alertVisible.value = true
+        alertText.value = data.username[0]
+      }
+      console.log(data);
+      setInterval(() => {
+       alertVisible.value = false
+      },3000)
     } catch (error) {
       console.log(error);
     } finally {
-      loading.value = false
+      loading.value = false;
     }
   } else {
-    alertVisible.value = true
-    loading.value = false
-    setInterval(() => {
-      alertVisible.value = false
-    }, 3000)
-  }
-};
-
-const signin = async () => {
-  loading.value = true
-
-  const userData = {
-    username:userInfo.value.name,
-    password: userInfo.value.password
-  }
-
-  if(userInfo.value.name !== "" && userInfo.value.password.length !== 0) {
-    try{
-     const response = await fetch(`${api}/accounts/login`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "aplication/json"
-      },
-      method: "POST",
-      body: JSON.stringify(userData)
-     })
-     if(!response.ok){ 
-      throw new Error("Upps don't find account")
-     }
-     const data = await response.json()
-     console.log(data)
-    } catch(error) {
-      console.log(error)
-    } finally {
-      loading.value = false
+    loading.value = false;
+    alertVisible.value = true;
+    if(info.username === "" && info.password.length === 0) {
+      infoError.value.nameError = true
+      infoError.value.passwordError = true
+      alertText.value = "Please fill in the information"
+    } else if(info.username === "") {
+      infoError.value.nameError = true
+      alertText.value = "Please fill in the information"
+    } else if (info.password.length === 0) {
+      infoError.value.passwordError = true
+      alertText.value = "Please fill in the information"
+    } else {
+      return ''
     }
+    if(info.password.length > 0 && info.password.length < 6) {
+      infoError.value.passwordError = true
+      alertText.value = "password must be at least 6 characters long"
+    }
+    setInterval(() => {
+      infoError.value.nameError = false
+      infoError.value.passwordError = false
+      alertVisible.value = false;
+    }, 3000);
   }
-};
+  }
 </script>
 
 <style scoped lang="css">

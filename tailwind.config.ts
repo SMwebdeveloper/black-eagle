@@ -19,7 +19,7 @@ export default {
       blakc: "#000",
       darkColor: "#34495E",
       blue: "#368DE7",
-      red: "red",
+      red: "#E32636",
       transparent: "transparent",
       gray: "#9999",
       white: "#ffffff",

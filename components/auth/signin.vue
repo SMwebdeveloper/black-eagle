@@ -3,7 +3,7 @@
     <h2 class="text-center mb-4 text-3xl text-darkColor font-bold">Sign in</h2>
     <div class="relative z-0 w-full mb-5 group">
       <input
-      v-model="props.userInfo.name"
+      v-model="userInfo.username"
         type="text"
         name="floating_name"
         id="floating_name"
@@ -19,7 +19,7 @@
     </div>
     <div class="relative z-0 w-full mb-5 group">
       <input
-      v-model="props.userInfo.password"
+      v-model="userInfo.password"
         type="password"
         name="floating_password"
         id="floating_password"
@@ -34,7 +34,7 @@
       >
     </div>
     <button
-      @click="$emit('handleClick')"
+      @click="$emit('handleClick', userInfo)"
       class="w-full bg-blue border border-blue text-white py-2 font-bold rounded-md mb-4"
     >
     <SharedSecondLoader v-if="loading"/>
@@ -57,10 +57,6 @@
 </template>
 <script setup lang="ts">
 const props = defineProps({
-  userInfo: {
-    type: Object,
-    required: false
-  },
   infoError: {
     type: Object,
     required: false
@@ -69,6 +65,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
+})
+const userInfo = ref({
+  username: '',
+  password: ''
 })
 </script>
 <style lang=""></style>
