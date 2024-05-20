@@ -65,6 +65,8 @@ const signup = async (info: any) => {
       if (!response.ok) {
         alertVisible.value = true;
         alertText.value = date.username[0]
+      } else {
+        router.push("/challenges")
       }
      setInterval(() => {
        alertVisible.value = false
@@ -123,6 +125,8 @@ const signin = async (info: any) => {
       if (!response.ok) {
         alertVisible.value = true
         alertText.value = data.username[0]
+      } else {
+        router.push("/challenges")
       }
       console.log(data);
       setInterval(() => {
