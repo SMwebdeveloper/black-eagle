@@ -1,5 +1,5 @@
 <template>
-  <div class="loader mt-[400px]"></div>
+    <div class="loader mt-[40%] lg:mt-[10%] mx-auto"></div>
 </template>
 
 <style scoped lang="css">
@@ -7,7 +7,7 @@
   position: relative;
   width: 120px;
   height: 90px;
-  margin: 8% auto 0;
+  /* margin: ; */
 }
 .loader:before {
   content: "";

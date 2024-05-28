@@ -5,7 +5,7 @@
     :class="`${modalVisible ? 'visible duration-75' : 'invisible'}`"
   ></div>
   <div
-    class="fixed top-0 w-[250px] lg:w-1/5 h-full overflow-y-auto z-40 cursor-pointer bg-darkColor rounded-tl-md py-3 shadow-md px-2"
+    class="fixed top-0 w-[250px] lg:w-1/4 h-full overflow-y-auto z-40 cursor-pointer bg-darkColor rounded-tl-md py-3 shadow-md px-2"
     :class="`${
       modalVisible
         ? 'visible right-0 duration-150'
@@ -17,6 +17,7 @@
       <label class="text-white mb-2 inline-block">
         <span class="text-lg font-medium inline-block mb-2">Title</span>
         <input
+          v-model="challengeInfo.title"
           type="text"
           placeholder="Title"
           class="text-sm w-full px-2 py-1 bg-white border border-white rounded-md placeholder:text-gray text-blakc outline-none"
@@ -26,8 +27,7 @@
       <label class="text-white inline-block mb-2">
         <span class="text-lg font-medium inline-block mb-2">Description</span>
         <textarea
-          name=""
-          id=""
+          v-model="challengeInfo.description"
           rows="5"
           placeholder="Description"
           class="text-sm w-full border border-white bg-white min-h-[100px] max-h-[100px] px-2 py-1 rounded-md placeholder:text-gray text-blakc outline-none"
@@ -38,6 +38,7 @@
       <label class="text-white inline-block mb-2">
         <span class="text-lg font-medium inline-block mb-2">Response</span>
         <input
+          v-model="challengeInfo.answer"
           placeholder="Response"
           class="text-sm w-full px-2 py-1 bg-white border border-white rounded-md placeholder:text-gray text-blakc outline-none"
           :class="{ 'border-red': errInfo.resp }"
@@ -92,6 +93,7 @@
       </div>
     </form>
   </div>
+  <SharedAlert :alert-visible="alertVisible" :text="alertText" />
 </template>
 
 <script setup lang="ts">
@@ -102,6 +104,17 @@ const props = defineProps({
   },
 });
 
+const challengeInfo = ref({
+  title: "",
+  description: "",
+  dificult: "Easy",
+  score:"",
+  answer: "",
+  file: "",
+});
+const loading = ref(false);
+const alertVisible = ref(false);
+const alertText = ref("");
 const selectVisible = ref(false);
 const type = ref("Easy");
 const errInfo = ref({
@@ -109,12 +122,63 @@ const errInfo = ref({
   desc: false,
   resp: false,
   file: false,
+  dificult: false,
 });
 
 const clickSelect = (e: string) => {
   selectVisible.value = false;
   type.value = e;
+  challengeInfo.value.dificult =  e
 };
 
-const handleClick = () => {};
+const handleClick = async () => {
+  loading.value = true;
+  const { answer, dificult, description, file, title } = challengeInfo.value;
+  if (answer && description && dificult && title) {
+    try {
+      const response = await fetch(
+        "https://myapi.pythonanywhere.com/api/challenges/",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: JSON.stringify(challengeInfo.value)
+        }
+      );
+      const data = response.json()
+      console.log(data)
+      if(!response.ok) {
+        alertVisible.value = true
+        alertText.value = 'Upps error'
+      } else {
+        alertVisible.value = true
+        alertText.value ="Successful"
+      }
+      setInterval(() => {
+        alertVisible.value = false
+      }, 3000)
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    alertVisible.value = true;
+    alertText.value = "Please add challenge information";
+    errInfo.value.desc = true;
+    errInfo.value.file = true;
+    errInfo.value.resp = true;
+    errInfo.value.title = true;
+    errInfo.value.dificult = true;
+
+    setInterval(() => {
+      alertVisible.value = false;
+      errInfo.value.desc = false;
+      errInfo.value.file = false;
+      errInfo.value.resp = false;
+      errInfo.value.title = false;
+      errInfo.value.dificult = false;
+    }, 3000);
+  }
+};
 </script>
