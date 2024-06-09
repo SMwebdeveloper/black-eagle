@@ -136,26 +136,26 @@ const handleClick = async () => {
   const { answer, dificult, description, file, title } = challengeInfo.value;
   if (answer && description && dificult && title) {
     try {
-      const response = await fetch(
-        "https://myapi.pythonanywhere.com/api/challenges/",
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "POST",
-          body: JSON.stringify(challengeInfo.value)
-        }
-      );
-      const data = response.json()
-      console.log(data)
-      if(!response.ok) {
-        alertVisible.value = true
-        alertText.value = 'Upps error'
-      } else {
-        alertVisible.value = true
-        alertText.value ="Successful"
-      }
+      // const response = await fetch(
+        // "https://myapi.pythonanywhere.com/api/challenges/",
+        // {
+        //   headers: {
+        //     Accept: "application/json",
+        //     "Content-Type": "application/json"
+        //   },
+        //   method: "POST",
+        //   body: JSON.stringify(challengeInfo.value)
+        // }
+      // );
+      // const data = response.json()
+      // console.log(data)
+      // if(!response.ok) {
+      //   alertVisible.value = true
+      //   alertText.value = 'Upps error'
+      // } else {
+      //   alertVisible.value = true
+      //   alertText.value ="Successful"
+      // }
       setInterval(() => {
         alertVisible.value = false
       }, 3000)

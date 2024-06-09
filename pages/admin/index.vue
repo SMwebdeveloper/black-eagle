@@ -1,16 +1,26 @@
 <template>
   <div class="mb-4 relative">
     <h2 class="text-3xl text-darkColor font-semibold mb-2">All Users</h2>
-    <div class="flex flex-col lg:flex-row items-start gap-y-2 lg:items-center justify-between">
+    <div
+      class="flex flex-col lg:flex-row items-start gap-y-2 lg:items-center justify-between"
+    >
       <input
         type="text"
         class="bg-transparent border-2 px-2 border-darkColor py-0.5 rounded-lg"
       />
 
       <div class="bg-darkColor rounded-lg text-white relative w-[150px]">
-        <h2 @click="visibleSelect = !visibleSelect" class="px-3 py-2 cursor-pointer">{{ selectTitle }}</h2>
+        <h2
+          @click="visibleSelect = !visibleSelect"
+          class="px-3 py-2 cursor-pointer"
+        >
+          {{ selectTitle }}
+        </h2>
 
-        <ul v-if="visibleSelect" class="absolute px-2 py-2 top-[45px] w-[150px] left-0 bg-darkColor shadow-lg rounded-lg">
+        <ul
+          v-if="visibleSelect"
+          class="absolute px-2 py-2 top-[45px] w-[150px] left-0 bg-darkColor shadow-lg rounded-lg"
+        >
           <li @click="clickSelect('All users')" class="cursor-pointer">
             All users
           </li>
@@ -23,16 +33,17 @@
         </ul>
       </div>
     </div>
-  
-    <SharedDeleteUserModal :modal-visible="deleteModal" @closeModal="deleteModal = !deleteModal"/>
+
+    <SharedDeleteUserModal
+      :modal-visible="deleteModal"
+      @closeModal="deleteModal = !deleteModal"
+    />
   </div>
   <div class="bg-darkColor overflow-x-auto rounded-md w-full min-h-[300px]">
     <ul
       class="min-w-[500px] py-2 px-2 border-b border-white flex text-white gap-x-2 items-start font-semibold"
     >
-    <li class="px-2">
-        Id
-      </li>
+      <li class="px-2">Id</li>
       <li class="px-3 w-1/5">Image</li>
       <li class="px-3 w-1/5">Name</li>
       <li class="px-3 w-1/5">Point</li>
@@ -41,8 +52,9 @@
     </ul>
     <ul
       v-for="(item, i) in 10"
+      @click="router.push(`/admin/user/${i}`)"
       :key="i"
-      class="w-full py-2 px-2 gap-x-2 border-b min-w-[500px] last:border-none border-gray flex items-center text-white text-base hover:bg-gray duration-150"
+      class="w-full py-2 px-2 gap-x-2 border-b cursor-pointer min-w-[500px] last:border-none border-gray flex items-center text-white text-base hover:bg-gray duration-150"
     >
       <li class="px-2 w-[35px]">
         {{ i + 1 }}
@@ -71,25 +83,25 @@
 </template>
 <script setup lang="ts">
 const deleteModal = ref(false);
-const visibleSelect = ref(false)
-const selectTitle = ref('All users')
+const visibleSelect = ref(false);
+const selectTitle = ref("All users");
+const router = useRouter();
 definePageMeta({
   layout: "admin",
 });
 
-
-const clickSelect = (e:any) => {
-  visibleSelect.value = !visibleSelect.value
-  selectTitle.value = e
-}
+const clickSelect = (e: any) => {
+  visibleSelect.value = !visibleSelect.value;
+  selectTitle.value = e;
+};
 onMounted(() => {
-  window.addEventListener("click", (e:any) => {
-    const el = e.target.getAttribute('data-name')
+  window.addEventListener("click", (e: any) => {
+    const el = e.target.getAttribute("data-name");
 
-    if(el === 'overlay') {
-      deleteModal.value = false
+    if (el === "overlay") {
+      deleteModal.value = false;
     }
-  })
-})
+  });
+});
 // const heading = ["#", "Image", "Username", "Country", "Date"];
 </script>

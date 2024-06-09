@@ -33,34 +33,23 @@
       </div>
     </div>
      
-    <h2 v-if="user.submissions.length === 0" class="text-center text-2xl text-darkColor font-medium">No submissions yet</h2>
-    <div v-else>
+    <h2  class="text-center text-2xl text-darkColor font-medium">No submissions yet</h2> 
+     <!-- <div >
       <h2 class="text-2xl text-center text-darkColor mb-4 font-medium">Submissions</h2>
 
-      <!-- <SharedTable/> -->
-    </div>
+      <SharedTable/>
+    </div> -->
   </div>
 </template>
 <script setup lang="ts">
 const route = useRoute().params.id;
-const user = ref({});
 const isLoading = ref(false);
-const api = "https://myapi.pythonanywhere.com/api/user/";
-onMounted(async () => {
-  try {
-    isLoading.value = true;
-    const response = await fetch(`${api}/${route}`);
-    const data = await response.json();
-    if (!response.ok) {
-      console.log("upps error");
-    } else {
-      user.value = data;
-      console.log(data);
-    }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    isLoading.value = false;
-  }
-});
+const userStore = useAuthStore()
+
+if(userStore.user.name === ''){ 
+  await userStore.getUsers()
+  await userStore.getUser()
+}
+
+const user = computed(() => userStore.user)
 </script>

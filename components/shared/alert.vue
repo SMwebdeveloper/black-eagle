@@ -15,7 +15,6 @@ const props = defineProps({
      required: true
   }
 })
-console.log(props.alertVisible)
 </script>
 <style lang="">
 

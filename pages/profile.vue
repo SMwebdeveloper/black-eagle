@@ -9,5 +9,11 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const userStore = useAuthStore()
 
-<script setup lang="ts"></script>
+if(userStore.user.name === "") {
+  await userStore.getUsers()
+  await userStore.getUser()
+}
+</script>

@@ -1,27 +1,4 @@
-<script setup lang="ts">
-const sidebarMenu = ref(false);
-const navLink = ref([
-  {
-    path: "/users",
-    title: "Users",
-  },
-  {
-    path: "/challenges",
-    title: "Challenges",
-  },
-]);
-onMounted(() => {
-  window.addEventListener("click", (e: any) => {
-    const el = e.target.getAttribute("data-name");
-    if (el === "overlay") {
-      sidebarMenu.value = false;
-    }
-  });
-});
-const removeSidebarMenu = () => {
-  sidebarMenu.value = false;
-};
-</script>
+
 <template>
   <section class="bg-white py-3 shadow-sm">
     <div
@@ -59,7 +36,7 @@ const removeSidebarMenu = () => {
         <!-- Site logo -->
         <div class="flex items-start justify-between w-full lg:hidden">
           <NuxtLink
-           @click="removeSidebarMenu"
+            @click="removeSidebarMenu"
             to="/"
             class="flex items-center text-2xl text-black font-semibold"
           >
@@ -78,37 +55,40 @@ const removeSidebarMenu = () => {
           </button>
         </div>
         <!-- nav link -->
-        <ul
-          class="lg:flex items-center gap-x-4 text-darkColor text-lg font-medium mb-2 lg:mb-0 mr-0 lg:mr-4"
-        >
-          <li
-            v-for="(link, i) in navLink"
-            :key="i"
-            @click="sidebarMenu = false"
+        <div v-if="userToken" class="flex items-center">
+          <ul
+            class="lg:flex items-center gap-x-4 text-darkColor text-lg font-medium mb-2 lg:mb-0 mr-0 lg:mr-4"
           >
-            <NuxtLink :to="link.path">
-              <p class="text-lg group relative w-max">
-                <span>{{ link.title }}</span>
-                <span
-                  class="absolute -bottom-1 left-0 w-0 transition-all duration-150 h-0.5 bg-darkColor group-hover:w-full"
-                ></span>
-              </p>
-            </NuxtLink>
-          </li>
-        </ul>
+            <li
+              v-for="(link, i) in navLink"
+              :key="i"
+              @click="sidebarMenu = false"
+            >
+              <NuxtLink :to="link.path">
+                <p class="text-lg group relative w-max">
+                  <span>{{ link.title }}</span>
+                  <span
+                    class="absolute -bottom-1 left-0 w-0 transition-all duration-150 h-0.5 bg-darkColor group-hover:w-full"
+                  ></span>
+                </p>
+              </NuxtLink>
+            </li>
+          </ul>
 
-        <!-- user profile -->
-        <div class="lg:relative">
-          <NuxtLink to="/profile" class="flex items-end">
-            <img
-              src="../../assets/images/user-image.png"
-              alt="user image"
-              class="w-[33px]"
-            />
-          </NuxtLink>
+          <!-- user profile -->
+          <div class="lg:relative">
+            <NuxtLink to="/profile" class="flex items-end">
+              <img
+                src="../../assets/images/user-image.png"
+                alt="user image"
+                class="w-[33px]"
+              />
+            </NuxtLink>
+          </div>
         </div>
         <!-- auth page link-->
         <NuxtLink
+          v-else
           to="/register"
           @click="removeSidebarMenu"
           class="px-3 py-2 relative rounded group overflow-hidden font-medium bg-white text-darkColor inline-block l border border-darkColor"
@@ -128,5 +108,31 @@ const removeSidebarMenu = () => {
     </div>
   </section>
 </template>
-
+<script setup lang="ts">
+const userStore = useAuthStore()
+const userToken:any = ref()
+const sidebarMenu = ref(false);
+const navLink = ref([
+  {
+    path: "/users",
+    title: "Users",
+  },
+  {
+    path: "/challenges",
+    title: "Challenges",
+  },
+]);
+onMounted(() => {
+  userToken.value = localStorage.getItem('token')
+  window.addEventListener("click", (e: any) => {
+    const el = e.target.getAttribute("data-name");
+    if (el === "overlay") {
+      sidebarMenu.value = false;
+    }
+  });
+});
+const removeSidebarMenu = () => {
+  sidebarMenu.value = false;
+};
+</script>
 <style scoped lang="css"></style>

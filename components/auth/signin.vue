@@ -3,8 +3,8 @@
     <h2 class="text-center mb-4 text-3xl text-darkColor font-bold">Sign in</h2>
     <div class="relative z-0 w-full mb-5 group">
       <input
-      v-model="userInfo.username"
-        type="text"
+      v-model="userInfo.email"
+        type="email"
         name="floating_name"
         id="floating_name"
         class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-darkColor appearance-none focus:outline-none focus:ring-0 focus:border-darkColor peer"
@@ -14,7 +14,7 @@
       <label
         for="floating_name"
         class="peer-focus:font-medium absolute text-sm text-darkColor duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-darkColor peer-focus:dark:text-darkColor peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >Name</label
+        >Email</label
       >
     </div>
     <div class="relative z-0 w-full mb-5 group">
@@ -67,7 +67,7 @@ const props = defineProps({
   }
 })
 const userInfo = ref({
-  username: '',
+  email: '',
   password: ''
 })
 </script>

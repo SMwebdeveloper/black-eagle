@@ -1,16 +1,34 @@
 <template>
   <div class="bg-lightColor min-h-screen flex flex-col sticky-layout">
-      <LayoutNavbar />
+    <LayoutNavbar />
     <main
       class="max-w-[1400px] w-full flex-1 mx-auto px-3 md:px-5 2xl:px-7 pb-3 overflow-x-hidden"
     >
-      <slot />
+      <SharedLoader v-if="loaderStore.isLoading"/>
+      <div v-else>
+        <slot />
+      </div>
     </main>
-      <LayoutAppFooter />
+    <LayoutAppFooter />
   </div>
 </template>
 <script setup lang="ts">
-</script>
-<style scoped>
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "~/firebase/firebase";
+import {useAuthStore} from "~/store/users"
+import { useLoadingStore } from "~/store/loading";
 
-</style>
+const authStore = useAuthStore()
+const loaderStore = useLoadingStore()
+onBeforeMount(async () => {
+  await onAuthStateChanged(auth, (user:any) => {
+    if(user) {
+       localStorage.setItem('token', user.uid)
+    }
+  })
+  await authStore.getUsers()
+  await authStore.getUser()
+  loaderStore.set(false)
+})
+</script>
+<style scoped></style>

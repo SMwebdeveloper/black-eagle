@@ -35,7 +35,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import { auth, db } from "~/firebase/firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {addDoc, collection} from 'firebase/firestore'
+
 definePageMeta({ layout: "auth" });
+
 const router = useRouter();
 const alertVisible = ref(false);
 const alertText = ref("");
@@ -53,24 +58,39 @@ const signup = async (info: any) => {
   loading.value = true;
   if (info.email !== "" && info.username !== "" && info.password.length >= 6) {
     try {
-      const response = await fetch(`${api}/accounts/signup/`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(info),
-      });
-      const date = await response.json();
-      if (!response.ok) {
-        alertVisible.value = true;
-        alertText.value = date.username[0]
-      } else {
-        router.push("/challenges")
-      }
-     setInterval(() => {
-       alertVisible.value = false
-     },3000)
+      // const response = await fetch(`${api}/accounts/signup/`, {
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify(info),
+      // });
+      // const date = await response.json();
+      // if (!response.ok) {
+      //   alertVisible.value = true;
+      //   alertText.value = date.username[0]
+      // } else {
+      //   router.push("/challenges")
+      // }
+      const email = info.email;
+      const password = info.password;
+      await createUserWithEmailAndPassword(auth, email, password)
+        .then(async (data) => {
+          await addDoc(collection(db, "users"), {
+            ...info,
+            userId:data.user?.uid
+          }).then(() => console.log('success')).catch((error) => console.log(error))
+          router.push("/challenges");
+        })
+        .catch((error) => {
+          console.log(error)
+          alertVisible.value = true;
+          alertText.value = "This user is alerady";
+        });
+      setInterval(() => {
+        alertVisible.value = false;
+      }, 3000);
     } catch (error) {
     } finally {
       loading.value = false;
@@ -78,31 +98,35 @@ const signup = async (info: any) => {
   } else {
     loading.value = false;
     alertVisible.value = true;
-    if(info.email === "" && info.username === "" && info.password.length === 0) {
-      infoError.value.emailError = true
-      infoError.value.nameError = true
-      infoError.value.passwordError = true
-      alertText.value = "Please fill in the information"
-    } else if(info.email === "") {
-      infoError.value.emailError = true
-      alertText.value = "Please fill in the information"
-    } else if(info.username === "") {
-      infoError.value.nameError = true
-      alertText.value = "Please fill in the information"
+    if (
+      info.email === "" &&
+      info.username === "" &&
+      info.password.length === 0
+    ) {
+      infoError.value.emailError = true;
+      infoError.value.nameError = true;
+      infoError.value.passwordError = true;
+      alertText.value = "Please fill in the information";
+    } else if (info.email === "") {
+      infoError.value.emailError = true;
+      alertText.value = "Please fill in the information";
+    } else if (info.username === "") {
+      infoError.value.nameError = true;
+      alertText.value = "Please fill in the information";
     } else if (info.password.length === 0) {
-      infoError.value.passwordError = true
-      alertText.value = "Please fill in the information"
+      infoError.value.passwordError = true;
+      alertText.value = "Please fill in the information";
     } else {
-      return ''
+      return "";
     }
-    if(info.password.length > 0 && info.password.length < 6) {
-      infoError.value.passwordError = true
-      alertText.value = "password must be at least 6 characters long"
+    if (info.password.length > 0 && info.password.length < 6) {
+      infoError.value.passwordError = true;
+      alertText.value = "password must be at least 6 characters long";
     }
     setInterval(() => {
-      infoError.value.emailError = false
-      infoError.value.nameError = false
-      infoError.value.passwordError = false
+      infoError.value.emailError = false;
+      infoError.value.nameError = false;
+      infoError.value.passwordError = false;
       alertVisible.value = false;
     }, 3000);
   }
@@ -111,27 +135,41 @@ const signup = async (info: any) => {
 const signin = async (info: any) => {
   loading.value = true;
 
-  if (info.username !== "" && info.password.length !== 0) {
+  if (info.email !== "" && info.password.length >= 6) {
     try {
-      const response = await fetch(`${api}/accounts/login`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "aplication/json",
-        },
-        method: "POST",
-        body: JSON.stringify(info),
-      });
-      const data = await response.json();
-      if (!response.ok) {
+      // const response = await fetch(`${api}/accounts/login`, {
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "aplication/json",
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify(info),
+      // });
+      // const data = await response.json();
+      // if (!response.ok) {
+      //   alertVisible.value = true;
+      //   alertText.value = data.username[0];
+      // } else {
+      //   router.push("/challenges");
+      // }
+      // console.log(data);
+      const email = info.email
+      const password = info.password
+      await signInWithEmailAndPassword(auth, email, password).then((data) => {
+        localStorage.setItem('token',data.user.uid)
+        
+        if(data.user.email === 'myadmin@gmail.com') {
+          router.push('/admin')
+        } else {
+          router.push('/challenges')
+        }
+      }).catch((error) => {
         alertVisible.value = true
-        alertText.value = data.username[0]
-      } else {
-        router.push("/challenges")
-      }
-      console.log(data);
+        alertText.value = 'Upps error. Please enter the correct information'
+      })
       setInterval(() => {
-       alertVisible.value = false
-      },3000)
+        alertVisible.value = false;
+      }, 3000);
     } catch (error) {
       console.log(error);
     } finally {
@@ -140,30 +178,29 @@ const signin = async (info: any) => {
   } else {
     loading.value = false;
     alertVisible.value = true;
-    if(info.username === "" && info.password.length === 0) {
-      infoError.value.nameError = true
-      infoError.value.passwordError = true
-      alertText.value = "Please fill in the information"
-    } else if(info.username === "") {
-      infoError.value.nameError = true
-      alertText.value = "Please fill in the information"
+    if (info.username === "" && info.password.length === 0) {
+      infoError.value.nameError = true;
+      infoError.value.passwordError = true;
+      alertText.value = "Please fill in the information";
+    } else if (info.username === "") {
+      infoError.value.nameError = true;
+      alertText.value = "Please fill in the information";
     } else if (info.password.length === 0) {
-      infoError.value.passwordError = true
-      alertText.value = "Please fill in the information"
+      infoError.value.passwordError = true;
+      alertText.value = "Please fill in the information";
+    } else if (info.password.length > 0 && info.password.length < 6) {
+      infoError.value.passwordError = true;
+      alertText.value = "password must be at least 6 characters long";
     } else {
-      return ''
-    }
-    if(info.password.length > 0 && info.password.length < 6) {
-      infoError.value.passwordError = true
-      alertText.value = "password must be at least 6 characters long"
+      return ""
     }
     setInterval(() => {
-      infoError.value.nameError = false
-      infoError.value.passwordError = false
+      infoError.value.nameError = false;
+      infoError.value.passwordError = false;
       alertVisible.value = false;
     }, 3000);
   }
-  }
+};
 </script>
 
 <style scoped lang="css">
