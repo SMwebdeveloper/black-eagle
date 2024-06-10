@@ -12,7 +12,7 @@
       <div v-else>
         <div>
           <img 
-           v-if="!isLoading"
+           v-if="!imgLoader"
             :src="img ? img : UserImage"
             alt="user image"
             class="w-[100px] h-[100px] rounded-full mb-3 object-cover"
@@ -36,7 +36,7 @@
               @change="uploadImage"
             />
           </label>
-          <button class="bg-red w-1/2 text-sm rounded-sm py-0.5">
+          <button @click="deleteImage" class="bg-red w-1/2 text-sm rounded-sm py-0.5">
             Delete Image
           </button>
         </div>
@@ -167,8 +167,12 @@ const uploadImage = async (e: any) => {
   visibleModal.value = false;
   imgLoader.value = false;
 };
+
+const deleteImage = () => {
+  img.value = ""
+}
 const handleClick = async () => {
-  if (name.value.title || countryName.value || img.value) {
+  if (name.value.title || countryName.value) {
     isLoading.value = true;
     const docRef = doc(db, "users", props.user.id);
     await updateDoc(docRef, {
