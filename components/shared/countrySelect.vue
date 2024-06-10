@@ -8,7 +8,7 @@
     <button @click="$emit('closeModal')" class="text-2xl">&times;</button>
   </div>
   <ul class="h-[150px] overflow-y-auto">
-    <li v-for="country, i in countries" :key="i" class="text-sm py-0.5 px-2 hover:bg-silver border-b border-darkColor last:border-none font-semibold cursor-pointer">
+    <li v-for="country, i in countries" :key="i" @click="$emit('changeCountry', country.label)" class="text-sm py-0.5 px-2 hover:bg-silver border-b border-darkColor last:border-none font-semibold cursor-pointer">
         {{ country?.label }}
     </li>
   </ul>
@@ -20,10 +20,6 @@ const props = defineProps({
     modalVisible:{
         type:Boolean,
         default: false
-    },
-    countryName:{
-     type: String,
-     required: true
     }
 })
 

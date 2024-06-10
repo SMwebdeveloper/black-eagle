@@ -1,8 +1,9 @@
 <script setup lang="ts">
 definePageMeta({ layout: "default" });
 useHead({ title: "Home page" });
+const userToken = ref()
 
-const userStore = useAuthStore();
+onMounted(() => userToken.value = localStorage.getItem('token'))
 </script>
 <template>
   <section class="text-center pt-[5%] relative">
@@ -17,7 +18,7 @@ const userStore = useAuthStore();
         test your knowledge and improve your cybersecurity skills.
       </p> -->
       <NuxtLink
-        v-if="userStore.user.name"
+        v-if="userToken"
         to="/challenges"
         class="inline-block bg-transparent border border-blue text-blue px-4 py-2 rounded-lg duration-150 hover:bg-blue hover:text-white"
       >

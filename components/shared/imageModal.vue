@@ -30,6 +30,7 @@
           id="file__input"
           class="hidden"
           accept="image/png, image/pdf, image/jpeg"
+          @change="uploadImage"
         />
       </label>
       <button class="bg-red px-3 py-2 text-white rounded-lg font-semibold">
@@ -45,4 +46,10 @@ const props = defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(['changeImage'])
+const uploadImage = (el:any) => {
+  const ImgEl = el.target.files[0]
+  emit('changeImage', ImgEl)
+} 
 </script>

@@ -1,9 +1,8 @@
 <template>
-  <SharedLoader v-if="isLoading" />
-  <div v-else>
+  <div >
     <div class="w-full pt-[3%] border-b-2 border-darkColor mb-10">
       <img
-        src="@/assets/images/user-image.png"
+        :src="user.img ? user.img :  '@/assets/images/user-image.png'"
         alt="user image"
         class="w-[150px] rounded-full mb-5 mx-auto"
       />
@@ -43,7 +42,6 @@
 </template>
 <script setup lang="ts">
 const route = useRoute().params.id;
-const isLoading = ref(false);
 const userStore = useAuthStore()
 
 if(userStore.user.name === ''){ 
