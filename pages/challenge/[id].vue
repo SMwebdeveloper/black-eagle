@@ -72,6 +72,7 @@
         <div>
           <input
             type="text"
+            v-model="response"
             class="w-auto lg:w-[500px] mb-2 h-[38px] px-3 mr-4 text-base outline-none border border-darkColor text-darkColor rounded-xl"
             placeholder="Flag{fasd577asd545asd7f}"
           />
@@ -102,12 +103,21 @@ const errRes = ref({
 })
 const handleClick = async () => {
   const token = localStorage.getItem('token')
-  const successUsers = challenge.successUsers
+  const successUsers = challenge.value.successUsers
+
+  
+  // if(response.value) {
+  //   console.log(response.value)
+  // }
    if(response.value !== "") {
-    const answer = challenge.value.answer
-    if(response === answer) {
+    const answer = challenge.value.answer.toLowerCase()
+    if(response.value.toLowerCase() === answer) {
+      
      await updateDoc(doc(db, "challenges", challenge.id), {
-      ...challenge, successUsers: challenge.value.successUsers?.psuh(token)
+      ...challenge, successUsers: challenge.value.successUsers?.push(token?.toString())
+     }).then(() => {
+      errRes.value.title = 'Success'
+      errRes.value.visible = false
      })
     } else {
       errRes.value.title = "Upps error try again",
