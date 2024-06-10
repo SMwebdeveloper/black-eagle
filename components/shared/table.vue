@@ -30,7 +30,7 @@
           </th>
           <td class="px-3 py-2 lg:px-6 lg:py-4">
             <img
-              :src="item.image ? item.image : UserImage"
+              :src="item.img ? item.img : UserImage"
               alt="user image"
               class="w-[28px] h-[28px] lg:w-[45px] lg:h-[45px] object-cover rounded-full"
             />

@@ -79,9 +79,9 @@
           <div class="lg:relative">
             <NuxtLink to="/profile" class="flex items-end">
               <img
-                src="../../assets/images/user-image.png"
+                :src="user?.img ? user?.img : UserImage"
                 alt="user image"
-                class="w-[33px]"
+                class="w-[33px] h-[33px] rounded-full object-cover"
               />
             </NuxtLink>
           </div>
@@ -109,6 +109,7 @@
   </section>
 </template>
 <script setup lang="ts">
+import UserImage from "~/assets/images/user-image.png"
 const userStore = useAuthStore()
 const userToken:any = ref()
 const sidebarMenu = ref(false);
@@ -122,6 +123,7 @@ const navLink = ref([
     title: "Challenges",
   },
 ]);
+const user = computed(() => userStore.user)
 onMounted(() => {
   userToken.value = localStorage.getItem('token')
   window.addEventListener("click", (e: any) => {

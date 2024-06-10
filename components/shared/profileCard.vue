@@ -17,7 +17,7 @@
             alt="user image"
             class="w-[100px] h-[100px] rounded-full mb-3 object-cover"
           />
-          <div v-else class="w-[100px] h-[100px] border-1.5 border-darkColor rounded-full">
+          <div v-else class="w-[100px] h-[100px] border-1 flex items-center justify-center border-darkColor rounded-full">
             Loadign...
           </div>
         </div>
