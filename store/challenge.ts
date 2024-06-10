@@ -25,5 +25,15 @@ export const useChallengeStore = defineStore("challenge", {
 
       this.challenges = result
     },
+
+    async getChallenge(key:string) {
+      let result :any
+      this.challenges.forEach((item:any) => {
+        if(key === item.id) {
+            return result = item
+        }
+      })
+      this.challenge = result
+    }
   },
 });

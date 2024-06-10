@@ -9,14 +9,26 @@
       <IconCSS name="heroicons:bars-3-16-solid" class="text-white text-xl"/>
     </button>
     <div class="hidden lg:flex">
+      <button @click="sign_Out" class="mr-3 text-white">Sign Out</button>
         <img src="@/assets/images/user-image.png" alt="user image" class="w-[40px] rounded-full">
-        <h2 class="text-xl text-white font-medium">{{ user?.username }}</h2>
     </div>
   </section>
 </template>
 <script setup lang="ts">
+import { signOut } from 'firebase/auth';
+import { auth } from '~/firebase/firebase';
+
 const userTokent = ref()
 const userStore = useAuthStore()
+
+const sign_Out = async() => {
+ await signOut(auth).then(() => {
+  useRouter().push('/register')
+  localStorage.removeItem('token')
+ }).catch((error) => {
+  console.log(error)
+ })
+}
 const user = (() => userStore.user)
 onMounted(() => userTokent.value = localStorage.getItem('token'))
 </script>

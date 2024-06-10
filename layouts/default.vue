@@ -20,6 +20,7 @@ import { useLoadingStore } from "~/store/loading";
 
 const authStore = useAuthStore()
 const loaderStore = useLoadingStore()
+const challengeStore = useChallengeStore()
 onBeforeMount(async () => {
   await onAuthStateChanged(auth, (user:any) => {
     if(user) {
@@ -28,6 +29,7 @@ onBeforeMount(async () => {
   })
   await authStore.getUsers()
   await authStore.getUser()
+  await challengeStore.getChallenges('users')
   loaderStore.set(false)
 })
 </script>

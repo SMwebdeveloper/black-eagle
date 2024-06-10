@@ -6,10 +6,15 @@
     <h6 class="text-2xl text-center font-medium text-metal border-b border-darkColor mb-8 pb-6">Total: 50</h6>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        <SharedCard/>
+        <SharedCard :challenges="challenges"/>
     </div>
   
 </template>
 <script setup lang="ts">
+const challengeStore = useChallengeStore()
 
+const challenges = computed(() =>  challengeStore.challenges)
+if(!challengeStore.challenges.length) {
+  await challengeStore.getChallenges("users")
+}
 </script>

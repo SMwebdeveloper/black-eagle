@@ -19,6 +19,7 @@ export const useAuthStore = defineStore("auth", {
         userId: "",
         id: "",
       },
+      singleUser: {},
       users: [],
     };
   },
@@ -62,6 +63,15 @@ export const useAuthStore = defineStore("auth", {
           this.user = user
         }
       })
+    },
+    getSingleUser(key:any) {
+      this.users.forEach((user:any)=> {
+        if(user.id === key) {
+          this.singleUser = user
+        }
+      })
+
+      return this.singleUser
     },
   },
 });

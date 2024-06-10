@@ -1,10 +1,11 @@
 <template>
-  <div >
+  <shared-loader v-if="useLoadingStore().isLoading"/>
+  <div v-else>
     <div class="w-full pt-[3%] border-b-2 border-darkColor mb-10">
       <img
-        :src="user.img ? user.img :  '@/assets/images/user-image.png'"
+        :src="user.img ? user.img :  UserImage"
         alt="user image"
-        class="w-[150px] rounded-full mb-5 mx-auto"
+        class="w-[150px] h-[150px] object-cover rounded-full mb-5 mx-auto"
       />
       <div
         class="flex flex-col lg:flex-row items-start lg:items-center justify-center gap-y-2 gap-x-2 mb-8"
@@ -27,7 +28,7 @@
         <h3
           class="text-base font-bold text-darkColor bg-gray px-2 py-1 rounded shadow-md"
         >
-          samandar@gamil.com
+        {{ user.email }}
         </h3>
       </div>
     </div>
@@ -41,13 +42,15 @@
   </div>
 </template>
 <script setup lang="ts">
+import UserImage from "~/assets/images/user-image.png"
 const route = useRoute().params.id;
 const userStore = useAuthStore()
 
-if(userStore.user.name === ''){ 
-  await userStore.getUsers()
-  await userStore.getUser()
-}
+const user = computed(() => userStore.singleUser)
 
-const user = computed(() => userStore.user)
+onMounted(async () => {
+  await userStore.getUsers()
+  await userStore.getSingleUser(route)
+  useLoadingStore().set(false)
+})
 </script>

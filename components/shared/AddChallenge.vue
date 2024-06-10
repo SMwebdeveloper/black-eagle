@@ -78,10 +78,13 @@
       </label>
       <label class="text-white inline-block mb-6">
         <span class="text-lg font-medium inline-block mb-2">Add file</span>
+        <span v-if="fileLoader" class="text-sm text-darkColor">Loading</span>
+        <span v-if="challengeInfo.file" class="text-sm text-darkColor">{{ challengeInfo.file }}</span>
         <input
           type="file"
           placeholder="title"
           class="text-sm w-full px-2 py-1 border border-white rounded-md bg-white placeholder:text-gray text-blakc outline-none"
+          @change="uploadFile"
           :class="{ 'border-red': errInfo.file }"
         />
       </label>
@@ -108,6 +111,8 @@
 </template>
 
 <script setup lang="ts">
+import { getFile } from '~/composable/uploadFile';
+
 const props = defineProps({
   modalVisible: {
     type: Boolean,
@@ -131,6 +136,7 @@ const loading = ref(false);
 const alertVisible = ref(false);
 const alertText = ref("");
 const selectVisible = ref(false);
+const fileLoader = ref(false)
 const type = ref("Easy");
 const errInfo = ref({
   title: false,
@@ -147,6 +153,13 @@ const clickSelect = (e: string) => {
   challengeInfo.value.dificult = e;
 };
 
+const uploadFile = async (e:any) => {
+  fileLoader.value = true
+  const fileEl = e.target.files[0]
+  const response:any = await getFile(fileEl)
+  challengeInfo.value.file = response
+  fileLoader.value = false
+}
 const handleClick = async () => {
   loading.value = true;
   const { answer, dificult, description, file, title, score } = challengeInfo.value;
