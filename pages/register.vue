@@ -1,14 +1,6 @@
 <template>
-  <div class="pt-[15vh] h-screen relative">
-    <button
-      @click="router.back()"
-      class="fixed top-[5vh] left-[5vw] bg-white px-6 py-1 text-darkColor font-medium rounded-xl duration-150 hover:shadow-lg"
-    >
-      <span
-        ><IconCSS name="mingcute:align-arrow-left-line" class="text-2xl" />
-      </span>
-      Back
-    </button>
+  <div class="pt-[5vh]">
+    
     <SharedAlert :alertVisible="alertVisible" :text="alertText" />
     <div class="card mx-auto">
       <input type="checkbox" id="chk" aria-hidden="true" name="" />

@@ -37,7 +37,6 @@ const isLoading = useLoadingStore()
 const searchUser = ref("");
 const notFound = ref("");
 
-const users = ref([]);
 const updateUsers = computed(() => {
   if(searchUser.value !== '') {
     return userStore.users.filter((user:any) => {
@@ -51,7 +50,7 @@ const updateUsers = computed(() => {
 });
 
 // const api = "https://myapi.pythonanywhere.com/api/users/";
-if (!users.value.length) {
+if (!userStore.users.length) {
   await userStore.getUsers()
   isLoading.isLoading = false
   // axios

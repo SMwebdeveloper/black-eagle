@@ -35,3 +35,4 @@ onMounted(() => userToken.value = localStorage.getItem('token'))
     <!-- <SharedEarth /> -->
   </section>
 </template>
+

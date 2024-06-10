@@ -116,6 +116,13 @@
         <IconCSS name="heroicons:key-16-solid" class="text-xl" />
         <span>Change password</span>
       </button>
+      <button
+        @click="sign_Out"
+        class="flex items-center justify-center bg-red text-white mt-3 w-full py-1 rounded-md"
+      >
+        <IconCSS name="heroicons:arrow-left-start-on-rectangle-16-solid" class="text-xl" />
+        <span>Sign Out</span>
+      </button>
     </div>
     <SharedImageModal
       :modal-visible="visibleModal"
@@ -129,7 +136,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { db } from "~/firebase/firebase";
+import { db, auth } from "~/firebase/firebase";
+import {signOut} from "firebase/auth"
 import { updateDoc, doc } from "firebase/firestore";
 import { useAuthStore } from "#imports";
 import { getFile } from "~/composable/uploadFile";
@@ -142,6 +150,7 @@ const props = defineProps({
 });
 
 const userStore = useAuthStore();
+const router = useRouter()
 const img = ref();
 const name = ref({
   title: "",
@@ -171,6 +180,14 @@ const uploadImage = async (e: any) => {
 const deleteImage = () => {
   img.value = ""
 }
+
+const sign_Out = async () => {
+  localStorage.removeItem('token')
+  await signOut(auth)
+  router.push('/register')
+}
+
+
 const handleClick = async () => {
   if (name.value.title || countryName.value) {
     isLoading.value = true;

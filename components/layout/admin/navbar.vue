@@ -8,9 +8,16 @@
     <button class="lg:hidden" @click="$emit('toggleSidebar')">
       <IconCSS name="heroicons:bars-3-16-solid" class="text-white text-xl"/>
     </button>
-    <div class="hidden lg:block">
+    <div class="hidden lg:flex">
         <img src="@/assets/images/user-image.png" alt="user image" class="w-[40px] rounded-full">
+        <h2 class="text-xl text-white font-medium">{{ user?.username }}</h2>
     </div>
   </section>
 </template>
+<script setup lang="ts">
+const userTokent = ref()
+const userStore = useAuthStore()
+const user = (() => userStore.user)
+onMounted(() => userTokent.value = localStorage.getItem('token'))
+</script>
 
