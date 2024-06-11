@@ -6,7 +6,7 @@
       @toggleSidebar="sidebarVisible = !sidebarVisible"
     />
     <section class="lg:ml-[13%] mt-[70px] px-[20px] py-[30px]">
-      <SharedLoader v-if="isLoadingStore.isLoading" />
+      <SharedLoader v-if="loaderStore.isLoading" />
       <div v-else>
         <slot />
       </div>
@@ -18,14 +18,24 @@ import { useChallengeStore } from '~/store/challenge';
 
 
 const sidebarVisible = ref(false);
-const userStore = useAuthStore();
 const challengeStore = useChallengeStore()
-const isLoadingStore = useLoadingStore();
 
-onMounted(async () => {
-  await userStore.getUsers();
-  await userStore.getUser()
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "~/firebase/firebase";
+import {useAuthStore} from "~/store/users"
+import { useLoadingStore } from "~/store/loading";
+
+const authStore = useAuthStore()
+const loaderStore = useLoadingStore()
+onBeforeMount(async () => {
+  await onAuthStateChanged(auth, (user:any) => {
+    if(user) {
+       localStorage.setItem('token', user.uid)
+    }
+  })
+  await authStore.getUsers()
+  await authStore.getUser()
   await challengeStore.getChallenges('admin')
-  isLoadingStore.set(false);
-});
+  loaderStore.set(false)
+})
 </script>

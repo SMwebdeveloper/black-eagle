@@ -76,8 +76,8 @@
           </li>
         </ul>
       </label>
-      <label class="text-white inline-block mb-6">
-        <span class="text-lg font-medium inline-block mb-2">Add file</span>
+      <label class="text-white  mb-6 hidden">
+        <!-- <span class="text-lg font-medium inline-block mb-2">Add file</span>
         <span v-if="fileLoader" class="text-sm text-darkColor">Loading</span>
         <span v-if="challengeInfo.file" class="text-sm text-darkColor">{{ challengeInfo.file }}</span>
         <input
@@ -86,7 +86,7 @@
           class="text-sm w-full px-2 py-1 border border-white rounded-md bg-white placeholder:text-gray text-blakc outline-none"
           @change="uploadFile"
           :class="{ 'border-red': errInfo.file }"
-        />
+        /> -->
       </label>
 
       <div class="grid grid-cols-2 items-center justify-center gap-x-2">
@@ -100,7 +100,7 @@
         <button
           type="button"
           @click="$emit('closeModal')"
-          class="bg-white px-2 py-1 text-darkColor text-lg font-medium rounded-lg"
+          class="bg-white px-2 py-1 hidden text-darkColor text-lg font-medium rounded-lg"
         >
           Cansel
         </button>
@@ -111,7 +111,7 @@
 </template>
 
 <script setup lang="ts">
-import { getFile } from '~/composable/uploadFile';
+// import { getFile } from '~/composable/uploadFile';
 
 const props = defineProps({
   modalVisible: {
@@ -153,13 +153,13 @@ const clickSelect = (e: string) => {
   challengeInfo.value.dificult = e;
 };
 
-const uploadFile = async (e:any) => {
-  fileLoader.value = true
-  const fileEl = e.target.files[0]
-  const response:any = await getFile(fileEl)
-  challengeInfo.value.file = response
-  fileLoader.value = false
-}
+// const uploadFile = async (e:any) => {
+//   fileLoader.value = true
+//   const fileEl = e.target.files[0]
+//   const response:any = await getFile(fileEl)
+//   challengeInfo.value.file = response
+//   fileLoader.value = false
+// }
 const handleClick = async () => {
   loading.value = true;
   const { answer, dificult, description, file, title, score } = challengeInfo.value;

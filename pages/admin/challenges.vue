@@ -81,12 +81,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "~/firebase/firebase";
-import { useChallengeStore } from "~/store/challenge";
 definePageMeta({
   layout: "admin",
 });
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "~/firebase/firebase";
+// import { useChallengeStore } from "~/store/challenge";
 
 const addChallengeModal = ref(false);
 const visibleSelect = ref(false);
@@ -94,7 +94,6 @@ const selectTitle = ref("Easy");
 const searchChallenge = ref("");
 const notFound = ref("");
 const challengeStore = useChallengeStore();
-const loadingStore = useLoadingStore();
 
 const challenges = computed(() => {
   if (searchChallenge.value !== "") {
@@ -109,9 +108,8 @@ const challenges = computed(() => {
 });
 
 
-if (!challengeStore.challenges?.title) {
+if (!challengeStore.challenges?.length) {
   await challengeStore.getChallenges("admin");
-  loadingStore.set(false);
 }
 
 const addChallenge = async (i:any) => {
@@ -129,17 +127,17 @@ const addChallenge = async (i:any) => {
       console.log(error);
     }
 }
-const clickSelect = (e: any) => {
-  visibleSelect.value = !visibleSelect.value;
-  selectTitle.value = e;
-};
-onMounted(async () => {
-  window.addEventListener("click", (e: any) => {
-    const el = e.target.getAttribute("data-name");
+// const clickSelect = (e: any) => {
+//   visibleSelect.value = !visibleSelect.value;
+//   selectTitle.value = e;
+// };
+// onMounted(async () => {
+//   window.addEventListener("click", (e: any) => {
+//     const el = e.target.getAttribute("data-name");
 
-    if (el === "overlay") {
-      addChallengeModal.value = false;
-    }
-  });
-});
+//     if (el === "overlay") {
+//       addChallengeModal.value = false;
+//     }
+//   });
+// });
 </script>
