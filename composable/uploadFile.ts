@@ -6,7 +6,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 // const app = getApp()
-// const storage = getStorage(app, "gs://my-custom-bucket");
+const storage = getStorage();
 
 export const getFile = async (imgEl: any)  => {
   let result
