@@ -22,7 +22,7 @@
     </div>
     <!-- <h4 v-if="notFound !== '' && updateUser.length === 0">{{ notFound }}</h4> -->
     <SharedTable :users="updateUsers" />
-    <SharedPagination />
+    <!-- <SharedPagination /> -->
   </div>
 </template>
 <script setup lang="ts">

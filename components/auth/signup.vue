@@ -88,7 +88,12 @@ const props = defineProps({
   },
 });
 const userInfo = ref({
+  score: 0,
+  country: "",
   username: "",
+  userId:"",
+  submissions:[],
+  img:"",
   email: "",
   password: "",
 });

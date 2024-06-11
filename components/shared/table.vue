@@ -18,7 +18,7 @@
       <tbody class="min-w-[700px] md:w-full">
         <tr
           v-for="(item, i) in users"
-          @click="router.push(`/user/${item?.id}`)"
+          @click="handleClick(item)"
           :key="i"
           class="bg-white border-b last:border-b-0 text-sm md:text-base lg:text-xl cursor-pointer text-darkColor hover:bg-silver duration-150"
         >
@@ -59,9 +59,18 @@ const props = defineProps({
   },
 });
 
+const token = ref()
 const router = useRouter()
 const heading = ["#", "Image", "Username", "Country", "Point"];
 
+const handleClick = (user:any) => {
+  if(user.userId === token.value) {
+    router.push('/profile')
+  } else {
+    router.push(`/user/${user.id}`)
+  }
+}
 onMounted(async () => {
+  token.value = localStorage.getItem('token')
 });
 </script>

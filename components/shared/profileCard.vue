@@ -193,7 +193,6 @@ const handleClick = async () => {
     isLoading.value = true;
     const docRef = doc(db, "users", props.user.id);
     await updateDoc(docRef, {
-      ...props.user,
       username: name.value.title,
       country: countryName.value,
       img: img.value,

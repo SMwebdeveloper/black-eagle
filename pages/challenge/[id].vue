@@ -75,7 +75,7 @@
             v-model="response"
             class="w-auto lg:w-[500px] mb-2 h-[38px] px-3 mr-4 text-base outline-none border border-darkColor text-darkColor rounded-xl"
             placeholder="Flag{fasd577asd545asd7f}"
-            :disabled="respLoading"
+            :disabled="respLoading || inputDisabeled"
           />
           <button
             @click="handleClick"
@@ -97,6 +97,7 @@
         Solvers: {{ challenge.successUsers?.length }}
       </h2>
     </div>
+    <SharedTable v-if="challenge.successUsers?.length" :users="solvers"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -104,9 +105,12 @@ import { updateDoc, doc } from "firebase/firestore";
 import { db } from "~/firebase/firebase";
 
 const route: any = useRoute().params.id;
-const challengeStore = useChallengeStore();
+const challengeStore = useChallengeStore();7
+const userStore = useAuthStore()
 const response = ref("");
 const respLoading = ref(false)
+const inputDisabeled = ref(false)
+const token = ref()
 const errRes = ref({
   title: "",
   visible: false,
@@ -115,26 +119,33 @@ const errRes = ref({
 const challenge = computed(() => challengeStore.challenge);
 
 const handleClick = async () => {
-  const token = localStorage.getItem("token");
   const successUsers = challenge.value.successUsers;
   const answer = challenge.value.answer.toLowerCase();
 
   if (response.value) {
     respLoading.value = true
     if(response.value.toLowerCase() === answer) {
-      successUsers.push(token)
+      successUsers.push(token.value)
       const docRef = doc(db, "challenges", challenge.value.id)
       await updateDoc(docRef, {
         successUsers: successUsers
-      }).then(() => {
+      }).then(async () => {
         response.value = ""
         errRes.value.visible = true
         errRes.value.title = 'Success'
-        console.log('done')
+        user.value.score = challenge.value.score + user.value.score
+        await updateDoc(doc(db, "users", user.value.id), {
+         score:user.value.score
+        })
+        await challengeStore.getChallenge(route)
+        await challengeStore.getChallenges("users")
       }).catch((error) => {
         console.log(error)
       })
     } else {
+      response.value = ""
+      errRes.value.visible = true
+      errRes.value.title = "Upps error answer"
       console.log('upps sory')
     }
     respLoading.value = false
@@ -147,7 +158,28 @@ const handleClick = async () => {
     errRes.value.visible = false
   }, 3000)
 };
+
+const user = computed(() => userStore.user)
+const solvers = computed(() => {
+  const results:any = []
+
+  challenge.value.successUsers?.forEach((challenge) => {
+    userStore.users.forEach((user) => {
+      if(challenge === user.userId) {
+        return results.push(user)
+      }
+    })
+  })
+
+  return results
+})
 onMounted(async () => {
+  token.value = localStorage.getItem('token')
+  solvers.value.forEach((solve:any) => {
+    if(solve.userId === token.value) {
+      inputDisabeled.value = true
+    }
+  })
   await challengeStore.getChallenges("users");
   await challengeStore.getChallenge(route);
 });
