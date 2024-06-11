@@ -42,13 +42,13 @@
           class="text-white mr-2 text-xl"
         />
         <h6 class="mr-2">Solvers:</h6>
-        <span class="font-medium inline-block">{{ challenge?.successUsers?.length }}</span>
+        <span class="font-medium inline-block">{{
+          challenge?.successUsers?.length
+        }}</span>
       </div>
     </div>
 
     <div class="bg-white w-full rounded-lg shadow-lg px-3 py-4">
-   
-
       <div>
         <h2
           class="text-2xl mb-4 pb-3 border-dotted border-b-4 border-darkColor text-darkColor font-medium"
@@ -66,7 +66,7 @@
           class="bg-blue p-2 inline-block text-white font-medium rounded-lg mb-2"
         >
           <IconCSS name="ph:download-light" class="text-white text-xl" />
-          Downoad</a
+          Download</a
         >
 
         <div>
@@ -75,65 +75,80 @@
             v-model="response"
             class="w-auto lg:w-[500px] mb-2 h-[38px] px-3 mr-4 text-base outline-none border border-darkColor text-darkColor rounded-xl"
             placeholder="Flag{fasd577asd545asd7f}"
+            :disabled="respLoading"
           />
-          <button @click="handleClick" class="bg-blue px-6 py-1 text-white text-xl rounded-lg">
-            Submit
+          <button
+            @click="handleClick"
+            class="bg-blue px-6 py-1 text-white text-xl rounded-lg"
+          >
+            <span v-if="respLoading">Loading</span>
+            <span v-else>Submit</span>
           </button>
         </div>
-        <h2 v-if="errRes.visible" class="text-xl text-red font-normal">{{ errRes.title }}</h2>
+        <h2 v-if="errRes.visible" class="text-xl text-red font-normal">
+          {{ errRes.title }}
+        </h2>
       </div>
     </div>
 
     <!-- table -->
     <div class="mt-20">
-      <h2 class="text-2xl font-medium text-darkColor mb-6">Solvers: {{ challenge.successUsers?.length }}</h2>
+      <h2 class="text-2xl font-medium text-darkColor mb-6">
+        Solvers: {{ challenge.successUsers?.length }}
+      </h2>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { updateDoc, doc } from 'firebase/firestore';
-import { db } from '~/firebase/firebase';
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "~/firebase/firebase";
 
-const route:any = useRoute().params.id
-const challengeStore = useChallengeStore()
-const response = ref("")
+const route: any = useRoute().params.id;
+const challengeStore = useChallengeStore();
+const response = ref("");
+const respLoading = ref(false)
 const errRes = ref({
   title: "",
-  visible: false
-})
-const handleClick = async () => {
-  const token = localStorage.getItem('token')
-  const successUsers = challenge.value.successUsers
+  visible: false,
+});
 
-  
-  // if(response.value) {
-  //   console.log(response.value)
-  // }
-   if(response.value !== "") {
-    const answer = challenge.value.answer.toLowerCase()
+const challenge = computed(() => challengeStore.challenge);
+
+const handleClick = async () => {
+  const token = localStorage.getItem("token");
+  const successUsers = challenge.value.successUsers;
+  const answer = challenge.value.answer.toLowerCase();
+
+  if (response.value) {
+    respLoading.value = true
     if(response.value.toLowerCase() === answer) {
-      
-     await updateDoc(doc(db, "challenges", challenge.id), {
-      ...challenge, successUsers: challenge.value.successUsers?.push(token?.toString())
-     }).then(() => {
-      errRes.value.title = 'Success'
-      errRes.value.visible = false
-     })
+      successUsers.push(token)
+      const docRef = doc(db, "challenges", challenge.value.id)
+      await updateDoc(docRef, {
+        successUsers: successUsers
+      }).then(() => {
+        response.value = ""
+        errRes.value.visible = true
+        errRes.value.title = 'Success'
+        console.log('done')
+      }).catch((error) => {
+        console.log(error)
+      })
     } else {
-      errRes.value.title = "Upps error try again",
-      errRes.value.visible = true
+      console.log('upps sory')
     }
-   } else {
-    errRes.value.title = 'Please add response'
+    respLoading.value = false
+  } else {
     errRes.value.visible = true
-   }
-   setInterval(() => {
-       errRes.value.visible = false
-      }, 3000)
-}
-const challenge = computed(() => challengeStore.challenge)
-onMounted(async ()=> {
-  await challengeStore.getChallenges("users")
- await challengeStore.getChallenge(route)
-})
+    errRes.value.title = "Please add response"
+  }
+
+  setInterval(() => {
+    errRes.value.visible = false
+  }, 3000)
+};
+onMounted(async () => {
+  await challengeStore.getChallenges("users");
+  await challengeStore.getChallenge(route);
+});
 </script>
